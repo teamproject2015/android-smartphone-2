@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">LoggingApp</string>
+
+    <string name="train_Loggerapp">Hello, Please Train the LoggerApp!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Logger App Labels-->
+    <string name="button_save">Save</string>
+    <string name="label_type">Please type key :</string>
+
+    <string name="label_finger">Using which Finger</string>
+
+    <string-array name="finger_arrays">
+        <item>Thumb</item>
+        <item>Index Finger</item>
+        <item>Middle Finger</item>
+    </string-array>
+
+    <string name="label_hand">Using which Hand</string>
+
+    <string-array name="Hand_arrays">
+        <item>Right</item>
+        <item>Left</item>
+        <item>Both</item>
+    </string-array>
+
+
+</resources>

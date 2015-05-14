@@ -1,0 +1,81 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+    <TextView android:text="@string/train_Loggerapp" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_Title" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/label_type"
+        android:id="@+id/textView_typeLabel"
+        android:layout_marginTop="53dp"
+        android:layout_below="@+id/textView_Title"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textView_key"
+        android:text="a"
+        android:layout_marginStart="16dp"
+        android:layout_alignBottom="@+id/textView_typeLabel"
+        android:layout_toEndOf="@+id/textView_typeLabel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/label_finger"
+        android:id="@+id/textView_finger"
+        android:layout_alignTop="@+id/spinner_finger"
+        android:layout_alignEnd="@+id/textView_Title" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_finger"
+        android:entries="@array/finger_arrays"
+        android:prompt="@string/label_finger"
+        android:layout_marginTop="26dp"
+        android:layout_below="@+id/editText_key"
+        android:layout_toEndOf="@+id/textView_finger" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/label_hand"
+        android:id="@+id/textView_hand"
+        android:layout_below="@+id/spinner_finger"
+        android:layout_toStartOf="@+id/spinner_hand"
+        android:layout_marginTop="29dp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_hand"
+        android:entries="@array/Hand_arrays"
+        android:prompt="@string/label_hand"
+        android:layout_alignTop="@+id/textView_hand"
+        android:layout_alignStart="@+id/spinner_finger" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText_key"
+        android:layout_below="@+id/textView_key"
+        android:layout_marginTop="22dp"
+        android:layout_alignEnd="@+id/textView_key"
+        android:layout_alignStart="@+id/textView_typeLabel" />
+
+
+</RelativeLayout>
