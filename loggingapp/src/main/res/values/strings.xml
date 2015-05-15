@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LoggingApp</string>
+    <string name="app_name">SmartphoneAttacks</string>
 
     <string name="train_Loggerapp">Hello, Please Train the LoggerApp!</string>
     <string name="action_settings">Settings</string>
