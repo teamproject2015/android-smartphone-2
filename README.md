@@ -1,7 +1,7 @@
 # android-smartphone-2
 Project Coordinator: Saimadhav
 
-Environment: Android 5
+Environment: Android 4
 
 Device Type: Smartphone
 
