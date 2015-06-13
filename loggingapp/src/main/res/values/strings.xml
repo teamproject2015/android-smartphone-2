@@ -1,28 +1,41 @@
 <resources>
     <string name="app_name">SmartphoneAttacks</string>
 
-    <string name="train_Loggerapp">Hello, Please Train the LoggerApp!</string>
+
+    <!-- Action Names -->
+    <string name="action_startTouchLogger">Start TouchLogger</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Logger App Labels-->
+
+    <!-- Labels-->
     <string name="button_save">Save</string>
     <string name="label_type">Please type key :</string>
-
     <string name="label_finger">Using which Finger</string>
+    <string name="train_Loggerapp">Hello, Please Train the LoggerApp!</string>
+    <string name="label_pleaseentername">Hello, Please Enter your Name</string>
+    <string name="label_welcome">Welcome</string>
+    <string name="navigate_message">Please use the options to use the TouchLogger</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="label_hand">Using which Hand</string>
 
+    <!-- Dropdowns -->
     <string-array name="finger_arrays">
         <item>Thumb</item>
         <item>Index Finger</item>
         <item>Middle Finger</item>
     </string-array>
 
-    <string name="label_hand">Using which Hand</string>
-
     <string-array name="Hand_arrays">
         <item>Right</item>
         <item>Left</item>
         <item>Both</item>
     </string-array>
+    <string name="title_activity_touchlogger">TouchLogger</string>
+
+
+
+    <!-- Buttons -->
+    <string name="button_continue">continue</string>
 
 
 </resources>

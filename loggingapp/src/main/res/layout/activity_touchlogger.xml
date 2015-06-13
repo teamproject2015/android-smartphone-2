@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.unimannheim.loggingapp.TouchloggerActivity">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <TextView
+        android:id="@+id/textView_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar"
+        android:text="@string/train_Loggerapp" />
+
+
+    <TextView
+        android:id="@+id/textView_typeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_Title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="53dp"
+        android:text="@string/label_type"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView_typeLabel"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@+id/textView_typeLabel"
+        android:text="a"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView_finger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView_Title"
+        android:layout_alignTop="@+id/spinner_finger"
+        android:text="@string/label_finger"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Spinner
+        android:id="@+id/spinner_finger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_key"
+        android:layout_marginTop="26dp"
+        android:layout_toEndOf="@+id/textView_finger"
+        android:entries="@array/finger_arrays"
+        android:prompt="@string/label_finger" />
+
+    <TextView
+        android:id="@+id/textView_hand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_finger"
+        android:layout_marginTop="29dp"
+        android:layout_toStartOf="@+id/spinner_hand"
+        android:text="@string/label_hand"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Spinner
+        android:id="@+id/spinner_hand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/spinner_finger"
+        android:layout_alignTop="@+id/textView_hand"
+        android:entries="@array/Hand_arrays"
+        android:prompt="@string/label_hand" />
+
+    <EditText
+        android:id="@+id/editText_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView_key"
+        android:layout_alignStart="@+id/textView_typeLabel"
+        android:layout_below="@+id/textView_key"
+        android:layout_marginTop="22dp" />
+
+</RelativeLayout>

@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 21
+    buildToolsVersion '19.1.0'
 
     def versionPropsFile = file('version.properties')
 
@@ -30,8 +30,8 @@ android {
 
         defaultConfig {
             applicationId "de.unimannheim.loggingapp"
-            minSdkVersion 22
-            targetSdkVersion 22
+            minSdkVersion 17
+            targetSdkVersion 17
             versionCode version_Code
             versionName "${versionMajor}.${versionMinor}.${versionPatch} (${versionBuild})"
         }
@@ -50,4 +50,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:support-v4:22.2.0'
 }
