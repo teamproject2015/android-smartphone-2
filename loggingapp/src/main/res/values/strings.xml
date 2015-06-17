@@ -5,6 +5,7 @@
     <!-- Action Names -->
     <string name="action_startTouchLogger">Start TouchLogger</string>
     <string name="action_settings">Settings</string>
+    <string name="action_aboutUs">About Us</string>
 
 
     <!-- Labels-->
@@ -33,9 +34,14 @@
     <string name="title_activity_touchlogger">TouchLogger</string>
 
 
-
     <!-- Buttons -->
     <string name="button_continue">continue</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- -->
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
 
 </resources>

@@ -2,6 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_touchLogger"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context="de.unimannheim.loggingapp.TouchloggerActivity">
 
     <include
@@ -10,9 +14,9 @@
 
     <TextView
         android:id="@+id/textView_Title"
+        android:layout_below="@id/app_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar"
         android:text="@string/train_Loggerapp" />
 
 

@@ -2,8 +2,8 @@ package de.unimannheim.loggingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,8 +19,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        callToolBar();
+        setContentView(R.layout.activity_main_appbar);
+        Toolbar toolbar = callToolBar();
         session = new SessionManager(getApplicationContext());
         final Button buttonContinue = (Button) findViewById(R.id.button_continue);
         final EditText userName = (EditText) findViewById(R.id.editText_personName);
@@ -39,21 +39,18 @@ public class MainActivity extends BaseActivity {
             });
         } else {
             nameLabel.setText(getString(R.string.label_welcome)
-                    + session.getUserName() + "\n"+ getString(R.string.navigate_message));
+                    + session.getUserName() + "\n" + getString(R.string.navigate_message));
             buttonContinue.setVisibility(View.INVISIBLE);
             userName.setVisibility(View.INVISIBLE);
         }
-    }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
 
-        if (session.getUserName() == null || "".equals(session.getUserName())) {
-            MenuItem menuTouchLogger = menu.findItem(R.id.action_touchlogger);
-            menuTouchLogger.setEnabled(false);
-            return false;
+        if (session.getUserName() != null && !"".equals(session.getUserName())) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            NavigationDrawerFragment drawerFragment
+                    = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+            drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.main_drawerLayout), toolbar);
         }
-        return true;
     }
 
 }
