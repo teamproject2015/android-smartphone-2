@@ -2,6 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/navigation_listHeight"
+    android:background="@drawable/custom_bg"
+    android:clickable="true"
+    android:layout_marginBottom="8.0dip"
+    android:layout_marginTop="8.0dip"
     android:orientation="horizontal">
 
     <ImageView
@@ -19,6 +23,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="Dummy Text" />
+        android:text="Dummy Text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+    <!--<View
+        android:layout_below="@id/textView_rowName"
+        android:layout_width="wrap_content"
+        android:layout_height="0.5dp"
+        android:layout_marginBottom="8.0dp"
+        android:layout_marginTop="8.0dp"
+        android:background="#009688" />-->
 
 </RelativeLayout>

@@ -21,6 +21,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_appbar);
         Toolbar toolbar = callToolBar();
+
         session = new SessionManager(getApplicationContext());
         final Button buttonContinue = (Button) findViewById(R.id.button_continue);
         final EditText userName = (EditText) findViewById(R.id.editText_personName);

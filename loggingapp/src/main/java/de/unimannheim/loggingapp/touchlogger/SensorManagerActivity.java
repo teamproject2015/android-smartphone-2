@@ -1,4 +1,4 @@
-package de.unimannheim.loggingapp;
+package de.unimannheim.loggingapp.touchlogger;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -7,12 +7,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,90 +30,66 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Random;
 
-/**
- * @author suryadevara
- * Created on 15.06.2015
- *
- * TouchloggerActivity Class is used to record the Logger activities to train
- * the keystoke for Keyboard
- */
-public class TouchloggerActivity extends BaseActivity implements SensorEventListener {
+import de.unimannheim.loggingapp.BaseActivity;
+import de.unimannheim.loggingapp.MainActivity;
+import de.unimannheim.loggingapp.R;
 
+/**
+ * Created by suryadevara on 18-06-2015.
+ */
+public class SensorManagerActivity extends BaseActivity implements SensorEventListener {
     private static final String TAG = MainActivity.class.getName();
-    private static final String FILENAME = "myLogFile.txt";
     private static final float NS2S = 1.0f / 1000000000.0f;
     private static final float EPSILON = 0.000001f;
-    private static final String CLASS_NAME = "TouchloggerActivity";
+    private static final String CLASS_NAME = "KeyboardActivity";
 
     // In this example, alpha is calculated as t / (t + dT),
     // where t is the low-pass filter's time-constant and
     // dT is the event delivery rate.
     final float alpha = 0.8f;
     private final double[] deltaRotationVector = new double[4];
-    private SensorManager mSensorManager;
-    private Sensor mAccelerometer;
-    private Sensor mTemperature;
-    private Sensor mPressure;
-    private Sensor mLight;
-    private Sensor mMagneticField;
-    private Sensor mGravity;
-    private Sensor mGyroscope;
-    private float[] gravity = new float[3];
-    private float[] magnitude = new float[3];
-    private float[] linear_acceleration = new float[3];
-    private float celsius;
-    private float lux;
-    private float hPa;
-    private float[] orientation = new float[3];
-    private float results[] = new float[3];
-    private float timestamp;
-    private float[] downTime = new float[3];
-    private float[] upTime = new float[3];
+    protected SensorManager mSensorManager;
+    protected Sensor mAccelerometer;
+    protected Sensor mTemperature;
+    protected Sensor mPressure;
+    protected Sensor mLight;
+    protected Sensor mMagneticField;
+    protected Sensor mGravity;
+    protected Sensor mGyroscope;
+    protected float[] gravity = new float[3];
+    protected float[] magnitude = new float[3];
+    protected float[] linear_acceleration = new float[3];
+    protected float celsius;
+    protected float lux;
+    protected float hPa;
+    protected float[] orientation = new float[3];
+    protected float results[] = new float[3];
+    protected float timestamp;
+    protected float[] downTime = new float[3];
+    protected float[] upTime = new float[3];
 
 
-    /**
-     * Value giving the total velocity of the gyroscope (will be high, when the device is moving fast and low when
-     * the device is standing still). This is usually a value between 0 and 10 for normal motion. Heavy shaking can
-     * increase it to about 25. Keep in mind, that these values are time-depended, so changing the sampling rate of
-     * the sensor will affect this value!
-     */
-    private double gyroscopeRotationVelocity = 0;
     private float RTmp[] = new float[9];
     private float Rot[] = new float[9];
     private float I[] = new float[9];
 
+    protected String logValues;
+    protected String generatedKey;
 
-    private boolean mInitialized;
-    private int count;
-    private String logValues;
-    private String generatedKey;
-
-    /**
-     * This method overrides the default onCreate method for Super Class Activity
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_touchlogger);
 
-        callToolBar();
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        mInitialized = false;
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         registerSensors();
-
-        generateRandomKey();
     }
 
     /**
      * Registering all the required Sensors to the App
      */
-    private void registerSensors() {
+    protected void registerSensors() {
         //List<Sensor> sensorsList = mSensorManager.getSensorList(Sensor.TYPE_ALL);
-
+        Log.i(CLASS_NAME, "Initiating all the sensors required");
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -132,17 +110,15 @@ public class TouchloggerActivity extends BaseActivity implements SensorEventList
 
         mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
+        Log.i(CLASS_NAME, "Initiated all the sensors required");
     }
 
     /**
      * This method generates the Key to press on the screen to monitor
      * the key stocks
      */
-    private void generateRandomKey() {
+    protected void generateRandomKey(String randomLetters) {
         Random rnd = new Random();
-        int numLetters = 36;
-
-        String randomLetters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String key = String.valueOf(randomLetters.charAt(rnd.nextInt(randomLetters.length())));
         TextView generateKeyForTextView = (TextView) findViewById(R.id.textView_key);
         generateKeyForTextView.setText(key);
@@ -154,18 +130,10 @@ public class TouchloggerActivity extends BaseActivity implements SensorEventList
      * triggering the onTouch method, the method will save the x,y coordinates
      * and accelerometer and orientation coordinates
      *
-     * @param event
-     * @return boolean
+     * @param event keyevent
+     * @return boolean value
      */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        EditText keyValue = (EditText) findViewById(R.id.editText_key);
-        Toast.makeText(getApplicationContext(), "keyValue-->" + keyValue.getText().toString(), Toast.LENGTH_SHORT).show();
-        if (keyValue.getText() != null
-                && !"".equals(keyValue.getText().toString())
-                && generatedKey != null
-                && generatedKey.equalsIgnoreCase(keyValue.getText().toString())) {
+    protected String recordTouchEvent(MotionEvent event) {
 
             StringBuilder keyStroke = new StringBuilder();
 
@@ -176,7 +144,7 @@ public class TouchloggerActivity extends BaseActivity implements SensorEventList
             keyStroke.append("Key:").append(generatedKey).append(",");
             //multi touch pointers
             // get pointer index from the event object
-            /*int pointerIndex = event.getActionIndex();
+            int pointerIndex = event.getActionIndex();
 
             // get masked (not specific to a pointer) action
             int maskedAction = event.getActionMasked();
@@ -200,49 +168,21 @@ public class TouchloggerActivity extends BaseActivity implements SensorEventList
                     keyStroke.append(",upTime:").append(event.getEventTime());
                     break;
                 }
-            }*/
-
-            keyStroke.append("gravity:" + gravity[0] + "," + gravity[1] + "," + gravity[2] + ",");
-            keyStroke.append("magnitude:" + magnitude[0] + "," + magnitude[1] + "," + magnitude[2] + ",");
-            keyStroke.append("Accelerometer:" + linear_acceleration[0] + "," + linear_acceleration[1] + "," + linear_acceleration[2] + ",");
-            keyStroke.append("orientation:" + orientation[0] + "," + orientation[1] + "," + orientation[2] + ",");
-            keyStroke.append("Temperature:" + celsius + ",");
-            keyStroke.append("Light:" + lux + ",");
-            keyStroke.append("pressure:" + hPa + "\r\n");
+            }
+            keyStroke.append("gravity:").append(gravity[0]).append(",").append(gravity[1]).append(",").append(gravity[2]).append(",");
+            keyStroke.append("magnitude:").append(magnitude[0]).append(",").append(magnitude[1]).append(",").append(magnitude[2]).append(",");
+            keyStroke.append("Accelerometer:").append(linear_acceleration[0]).append(",").append(linear_acceleration[1]).append(",").append(linear_acceleration[2]).append(",");
+            keyStroke.append("orientation:").append(orientation[0]).append(",").append(orientation[1]).append(",").append(orientation[2]).append(",");
+            keyStroke.append("Temperature:").append(celsius).append(",");
+            keyStroke.append("Light:").append(lux).append(",");
+            keyStroke.append("pressure:").append(hPa).append("\r\n");
 
             logValues = keyStroke.toString();
             Log.i(CLASS_NAME, "logValues------------->" + logValues);
-            count++;
-            if (count == 1) {
-                writeToFile(logValues);
-                Toast.makeText(getApplicationContext(),
-                        "Key Stocks Saved",
-                        Toast.LENGTH_SHORT).show();
-                count = 0;
-            }
-
-            //final EditText textMessage = (EditText) findViewById(R.id.editText_key);
-            Log.i(CLASS_NAME, "generatedKey value = " + generatedKey);
-            TextWatcher tw = new TextWatcher() {
-                public void afterTextChanged(Editable s) {
-                    generateRandomKey();
-                }
-
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
-            };
-            keyValue.addTextChangedListener(tw);
-
-            //  generateRandomKey();
-            keyValue.setText("");
-            keyValue.removeTextChangedListener(tw);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+        return logValues;
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -257,6 +197,14 @@ public class TouchloggerActivity extends BaseActivity implements SensorEventList
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+
+        /**
+         * Value giving the total velocity of the gyroscope (will be high, when the device is moving fast and low when
+         * the device is standing still). This is usually a value between 0 and 10 for normal motion. Heavy shaking can
+         * increase it to about 25. Keep in mind, that these values are time-depended, so changing the sampling rate of
+         * the sensor will affect this value!
+         */
+        double gyroscopeRotationVelocity;
 
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 
@@ -346,63 +294,7 @@ public class TouchloggerActivity extends BaseActivity implements SensorEventList
         }
     }
 
-    /**
-     * Writing the Data to File to ExternalStorageDirectory
-     *
-     * @param data
-     */
-    private void writeToFile(String data) {
-        try {
-            File sdCard = Environment.getExternalStorageDirectory();
-            Log.i(CLASS_NAME, "sdCard-->" + sdCard.getAbsolutePath());
-            File directory = new File(sdCard.getAbsolutePath() + "/TouchLogger");
-            directory.mkdirs();
-            File file = new File(directory, "TouchLogger.csv");
-            FileOutputStream fos = null;
-            try {
-                fos = new FileOutputStream(file, true);
-                Log.d(CLASS_NAME, "Data is append to the File Logger.csv");
-            } catch (FileNotFoundException fileNotFoundException) {
-                fos = new FileOutputStream(file);
-                Log.d(CLASS_NAME, "File Logger.csv is created with new data");
-            }
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fos);
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
 
-
-        } catch (IOException e) {
-            Log.e(TAG, "File write failed: " + e.toString());
-        }
-
-    }
-
-    private String readFromFile() {
-        String ret = "";
-        try {
-            InputStream inputStream = openFileInput(FILENAME);
-
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ((receiveString = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(receiveString);
-                }
-
-                inputStream.close();
-                ret = stringBuilder.toString();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e(TAG, "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e(TAG, "Can not read file: " + e.toString());
-        }
-
-        return ret;
-    }
 
     protected void onResume() {
         super.onResume();
@@ -419,6 +311,5 @@ public class TouchloggerActivity extends BaseActivity implements SensorEventList
         super.onPause();
         mSensorManager.unregisterListener(this);
     }
-
 
 }

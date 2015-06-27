@@ -23,6 +23,7 @@ import java.util.List;
 
 import de.unimannheim.loggingapp.adapter.NavigationAdapter;
 import de.unimannheim.loggingapp.pojo.NavigationList;
+import de.unimannheim.loggingapp.touchlogger.TouchloggerActivity;
 
 
 /**
@@ -51,6 +52,41 @@ public class NavigationDrawerFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Generating the Navigation View from the data provided in this method
+     *
+     * @return List<NavigationList>
+     */
+    public static List<NavigationList> getData() {
+        List<NavigationList> navigationLists = new ArrayList<NavigationList>();
+        int icons[] = {R.drawable.ic_home_black_24dp,R.drawable.ic_school_black_24dp, R.drawable.ic_settings_black_24dp, R.drawable.ic_info_black_24dp};
+
+        String title[] = {"Home","start TouchLogger", "settings", "About Us"};
+
+        int count = 0;
+        for (int index = 0; index < title.length; index++) {
+            NavigationList navigationList = new NavigationList();
+            navigationList.setId(icons[index]);
+            navigationList.setTitle(title[index]);
+            navigationLists.add(navigationList);
+        }
+        return navigationLists;
+    }
+
+    public static void savePreference(Context context, String preferenceName, String preferenceValue) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(preferenceName, preferenceValue);
+        editor.apply();
+
+    }
+
+    public static String readFromPreference(Context context, String preferenceName, String defaultValue) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, context.MODE_PRIVATE);
+        return sharedPreferences.getString(preferenceName, defaultValue);
+
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,15 +111,10 @@ public class NavigationDrawerFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                if (position == 0) {
+                if (position == 1) {
                     Intent i = new Intent(getActivity(), TouchloggerActivity.class);
                     startActivity(i);
-                    //setContentView(R.layout.activity_touchlogger);
-
-                } else if (position == 1) {
-                    //Intent i = new Intent(getApplicationContext(),SettingsActivity.class);
-                    //startActivity(i);
-                    //setContentView(R.layout.avtivity_next);
+                } else if (position == 2) {
                     Toast.makeText(getActivity(), "under progress, working on it", Toast.LENGTH_LONG).show();
                 }
             }
@@ -95,27 +126,6 @@ public class NavigationDrawerFragment extends Fragment {
         }));
         return layout;
 
-    }
-
-    /**
-     * Generating the Navigation View from the data provided in this method
-     *
-     * @return List<NavigationList>
-     */
-    public static List<NavigationList> getData() {
-        List<NavigationList> navigationLists = new ArrayList<NavigationList>();
-        int icons[] = {R.drawable.ic_school_black_24dp, R.drawable.ic_settings_black_24dp, R.drawable.ic_info_black_24dp};
-
-        String title[] = {"start TouchLogger", "settings", "About Us"};
-
-        int count = 0;
-        for (int index = 0; index < title.length; index++) {
-            NavigationList navigationList = new NavigationList();
-            navigationList.setId(icons[index]);
-            navigationList.setTitle(title[index]);
-            navigationLists.add(navigationList);
-        }
-        return navigationLists;
     }
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar) {
@@ -163,18 +173,10 @@ public class NavigationDrawerFragment extends Fragment {
         });
     }
 
-    public static void savePreference(Context context, String preferenceName, String preferenceValue) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(preferenceName, preferenceValue);
-        editor.apply();
+    public static interface ClickListener {
+        void onClick(View view, int position);
 
-    }
-
-    public static String readFromPreference(Context context, String preferenceName, String defaultValue) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, context.MODE_PRIVATE);
-        return sharedPreferences.getString(preferenceName, defaultValue);
-
+        void onLongClick(View view, int position);
     }
 
     class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
@@ -213,11 +215,5 @@ public class NavigationDrawerFragment extends Fragment {
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
         }
-    }
-
-    public static interface ClickListener {
-        void onClick(View view, int position);
-
-        void onLongClick(View view, int position);
     }
 }

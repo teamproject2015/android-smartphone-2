@@ -9,6 +9,12 @@
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
+    <View
+        android:id="@+id/toolbar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/toolbar_dropshadow"
+        android:foreground="@drawable/toolbar_dropshadow" />
 
     <android.support.v4.widget.DrawerLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/main_drawerLayout"
@@ -17,30 +23,28 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:foreground="@drawable/toolbar_dropshadow">
 
             <EditText
                 android:id="@+id/editText_personName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:layout_gravity="center_horizontal|top"
                 android:layout_below="@+id/textView_enterName"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal|top"
+                android:ems="10"
+                android:inputType="textPersonName" />
 
             <TextView
                 android:id="@+id/textView_enterName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="48dp"
-
-                android:text="@string/label_pleaseentername"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_gravity="center_horizontal|top"
-                android:layout_row="1"
-                android:layout_column="0" />
+                android:layout_marginTop="48dp"
+                android:text="@string/label_pleaseentername"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Button
                 android:id="@+id/button_continue"
@@ -48,11 +52,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/editText_personName"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="46dp"
-                android:text="@string/button_continue"
                 android:layout_gravity="center"
-                android:layout_row="2"
-                android:layout_column="0" />
+                android:layout_marginTop="46dp"
+                android:text="@string/button_continue" />
 
         </RelativeLayout>
 
@@ -64,7 +66,7 @@
             android:layout_gravity="start"
             app:layout="@layout/fragment_navigation_drawer"
             tools:layout="@layout/fragment_navigation_drawer" />
-    </android.support.v4.widget.DrawerLayout>
 
+    </android.support.v4.widget.DrawerLayout>
 
 </LinearLayout>
