@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
+
 
     <TextView
         android:id="@+id/textView_Title"
@@ -34,7 +37,6 @@
         android:layout_alignBottom="@+id/textView_typeLabel"
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/textView_typeLabel"
-        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
@@ -46,5 +48,16 @@
         android:layout_below="@+id/textView_key"
         android:layout_marginTop="22dp"
         android:inputType="text" />
+
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

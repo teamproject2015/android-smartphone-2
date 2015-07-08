@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 /**
  * Created by suryadevara on 13-06-2015.
+ * SessionManager is used to handle the session of Application
  */
 public class SessionManager {
 
@@ -15,11 +16,11 @@ public class SessionManager {
         prefs = PreferenceManager.getDefaultSharedPreferences(cntx);
     }
 
-    public void setUserName(String userName) {
-        prefs.edit().putString("userName", userName).commit();
+    public String getUserName() {
+        return prefs.getString("userName", "");
     }
 
-    public String getUserName() {
-        return prefs.getString("userName","");
+    public void setUserName(String userName) {
+        prefs.edit().putString("userName", userName).apply();
     }
 }

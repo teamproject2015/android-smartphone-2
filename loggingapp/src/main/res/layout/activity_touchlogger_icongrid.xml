@@ -1,65 +1,44 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout_iconMatch"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/tableLayout_iconMatch"
+    android:orientation="vertical"
     tools:context="de.unimannheim.loggingapp.touchlogger.IconGridActivity">
 
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
-    <TableRow
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/textView_icongridtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/label_icongridtitle"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-    </TableRow>
-
-    <TableRow
-        android:layout_marginTop="10dp"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/textView_matchicons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/label_icongrid_matchicons"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_marginTop="30dp"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/textView_icongrid_tries"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tries"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/holo_red_dark"
-            android:textStyle="bold" />
-
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow_matchicons"
+    <TextView
+        android:id="@+id/textView_icongridtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:text="@string/label_icongridtitle"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView_matchicons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:text="@string/label_icongrid_matchicons"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+    <TextView
+        android:id="@+id/textView_icongrid_tries"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:gravity="center">
+        android:layout_marginBottom="60dp"
+        android:text="Tries"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/holo_red_dark"
+        android:textStyle="bold" />
 
-
-    </TableRow>
-
-
-</TableLayout>
+</LinearLayout>

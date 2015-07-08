@@ -6,33 +6,19 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.Random;
 
 import de.unimannheim.loggingapp.BaseActivity;
 import de.unimannheim.loggingapp.MainActivity;
 import de.unimannheim.loggingapp.R;
+import de.unimannheim.loggingapp.session.SessionManager;
 
 /**
  * Created by suryadevara on 18-06-2015.
@@ -67,14 +53,14 @@ public class SensorManagerActivity extends BaseActivity implements SensorEventLi
     protected float timestamp;
     protected float[] downTime = new float[3];
     protected float[] upTime = new float[3];
-
-
+    protected String logValues;
+    protected String generatedKey;
     private float RTmp[] = new float[9];
     private float Rot[] = new float[9];
     private float I[] = new float[9];
-
-    protected String logValues;
-    protected String generatedKey;
+    private StringBuilder sensorValues = new StringBuilder();
+    private int keyCount;
+    protected String data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,10 +105,16 @@ public class SensorManagerActivity extends BaseActivity implements SensorEventLi
      */
     protected void generateRandomKey(String randomLetters) {
         Random rnd = new Random();
-        String key = String.valueOf(randomLetters.charAt(rnd.nextInt(randomLetters.length())));
+
+        if(keyCount==39 || keyCount==0) {
+            generatedKey = String.valueOf(randomLetters.charAt(rnd.nextInt(randomLetters.length())));
+        }
+        if(keyCount==39) {
+            keyCount = 0;
+        }
+        keyCount++;
         TextView generateKeyForTextView = (TextView) findViewById(R.id.textView_key);
-        generateKeyForTextView.setText(key);
-        generatedKey = key;
+        generateKeyForTextView.setText(generatedKey);
     }
 
     /**
@@ -133,55 +125,71 @@ public class SensorManagerActivity extends BaseActivity implements SensorEventLi
      * @param event keyevent
      * @return boolean value
      */
-    protected String recordTouchEvent(MotionEvent event) {
+    protected boolean recordTouchEvent(MotionEvent event,String key,boolean keyCheck) {
 
-            StringBuilder keyStroke = new StringBuilder();
+        StringBuilder keyStroke = new StringBuilder();
 
-            if (logValues != null
-                    && !"".equals(logValues)) {
-                keyStroke.append(logValues);
-            }
-            keyStroke.append("Key:").append(generatedKey).append(",");
-            //multi touch pointers
-            // get pointer index from the event object
-            int pointerIndex = event.getActionIndex();
+        if (logValues != null
+                && !"".equals(logValues)) {
+            keyStroke.append(logValues);
+        }
 
-            // get masked (not specific to a pointer) action
-            int maskedAction = event.getActionMasked();
+        if(keyCheck
+                && generatedKey != null
+                && !generatedKey.equals(key)) {
+            return false;
+        }
 
-            switch (maskedAction) {
+        //Appending the Data
+        keyStroke.append(data);
 
-                case MotionEvent.ACTION_DOWN:
-                case MotionEvent.ACTION_POINTER_DOWN: {
-                    // We have a new pointer. Lets add it to the list of pointers
-                    keyStroke.append(event.getX(pointerIndex) + "," + event.getY(pointerIndex));
-                    keyStroke.append(",downTime:" + event.getDownTime());
-                    //Testing the Value of pointers by toast
-                    Toast.makeText(getApplicationContext(),
-                            "X:" + event.getX(pointerIndex) + "Y:" + event.getY(pointerIndex), Toast.LENGTH_SHORT).show();
-                    break;
-                }
+        //Appending the key
+        keyStroke.append(generatedKey).append(",");
 
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_POINTER_UP:
-                case MotionEvent.ACTION_CANCEL: {
-                    keyStroke.append(",upTime:").append(event.getEventTime());
-                    break;
-                }
-            }
-            keyStroke.append("gravity:").append(gravity[0]).append(",").append(gravity[1]).append(",").append(gravity[2]).append(",");
-            keyStroke.append("magnitude:").append(magnitude[0]).append(",").append(magnitude[1]).append(",").append(magnitude[2]).append(",");
-            keyStroke.append("Accelerometer:").append(linear_acceleration[0]).append(",").append(linear_acceleration[1]).append(",").append(linear_acceleration[2]).append(",");
-            keyStroke.append("orientation:").append(orientation[0]).append(",").append(orientation[1]).append(",").append(orientation[2]).append(",");
-            keyStroke.append("Temperature:").append(celsius).append(",");
-            keyStroke.append("Light:").append(lux).append(",");
-            keyStroke.append("pressure:").append(hPa).append("\r\n");
+        //multi touch pointers
+        // get pointer index from the event object
+        int pointerIndex = event.getActionIndex();
 
-            logValues = keyStroke.toString();
-            Log.i(CLASS_NAME, "logValues------------->" + logValues);
-        return logValues;
+        // get masked (not specific to a pointer) action
+        //int maskedAction = event.getActionMasked();
+
+        //Keystroke for Co-ordinates
+        keyStroke.append(event.getX(pointerIndex)).append(",").append(event.getY(pointerIndex)).append(",");
+        //Testing the Value of pointers by Log
+        //Log.d(CLASS_NAME, "X:" + event.getX(pointerIndex) + "Y:" + event.getY(pointerIndex));
+
+
+
+
+        //Keystroke for taken Time/ms
+        /*long time = event.getEventTime() - event.getDownTime();
+        Log.d(CLASS_NAME, "Time taken for keystroke-->" + time);*/
+        keyStroke.append(event.getEventTime()).append(",");
+        keyStroke.append(event.getDownTime()).append(",");
+
+        keyStroke.append(sensorValues).append("\r\n");
+        sensorValues.setLength(0);
+
+        //Only the first sensor value needs to be collected, so commented the below Code
+        /*//Keystroke for gravity
+        keyStroke.append(gravity[0]).append(",").append(gravity[1]).append(",").append(gravity[2]).append(",");
+        //Keystroke for magnitude
+        keyStroke.append(magnitude[0]).append(",").append(magnitude[1]).append(",").append(magnitude[2]).append(",");
+        //Keystroke for Accelerometer
+        keyStroke.append(linear_acceleration[0]).append(",").append(linear_acceleration[1]).append(",").append(linear_acceleration[2]).append(",");
+        //Keystroke for orientation
+        keyStroke.append(orientation[0]).append(",").append(orientation[1]).append(",").append(orientation[2]).append(",");
+        //Keystroke for Temperature
+        keyStroke.append(celsius).append(",");
+        //Keystroke for Light
+        keyStroke.append(lux).append(",");
+        //Keystroke for pressure
+        keyStroke.append(hPa).append("\r\n");*/
+
+        logValues = keyStroke.toString();
+        Log.i(CLASS_NAME, "logValues------------->" + logValues);
+        return true;
     }
-
 
 
     @Override
@@ -205,8 +213,10 @@ public class SensorManagerActivity extends BaseActivity implements SensorEventLi
          * the sensor will affect this value!
          */
         double gyroscopeRotationVelocity;
+        int type = event.sensor.getType();
+        sensorValues.setLength(0);
 
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+        if (type == Sensor.TYPE_ACCELEROMETER) {
 
             // Isolate the force of gravity with the low-pass filter.
             gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
@@ -218,13 +228,28 @@ public class SensorManagerActivity extends BaseActivity implements SensorEventLi
             linear_acceleration[1] = event.values[1] - gravity[1];
             linear_acceleration[2] = event.values[2] - gravity[2];
 
-        } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            sensorValues.append("Acceleration").append(",").append(linear_acceleration[0]).append(",")
+                    .append(linear_acceleration[1]).append(",").append(linear_acceleration[2]).append(",");
+
+        } else if (type == Sensor.TYPE_GRAVITY) {
+            // Isolate the force of gravity with the low-pass filter.
+            gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+            gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+            gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+
+            sensorValues.append("Gravity").append(",").append(gravity[0])
+                    .append(",").append(gravity[1]).append(",").append(gravity[2]).append(",");
+
+        } else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
             // Isolate the force of gravity with the low-pass filter.
             magnitude[0] = alpha * magnitude[0] + (1 - alpha) * event.values[0];
             magnitude[1] = alpha * magnitude[1] + (1 - alpha) * event.values[1];
             magnitude[2] = alpha * magnitude[2] + (1 - alpha) * event.values[2];
 
-        } else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+            sensorValues.append("Magnitude").append(",").append(magnitude[0]).append(",")
+                    .append(magnitude[1]).append(",").append(magnitude[2]).append(",");
+
+        } else if (type == Sensor.TYPE_GYROSCOPE) {
             // This timestep's delta rotation to be multiplied by the current rotation
             // after computing it from the gyro sample data.
             if (timestamp != 0) {
@@ -255,18 +280,24 @@ public class SensorManagerActivity extends BaseActivity implements SensorEventLi
                 deltaRotationVector[1] = sinThetaOverTwo * axisY;
                 deltaRotationVector[2] = sinThetaOverTwo * axisZ;
                 deltaRotationVector[3] = cosThetaOverTwo;
+
+                sensorValues.append("GyroScope").append(",").append(deltaRotationVector[0]).append(",")
+                        .append(deltaRotationVector[1]).append(",").append(deltaRotationVector[2]).append(",");
             }
             timestamp = event.timestamp;
 
-        } else if (event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {
+        } /*else if (type == Sensor.TYPE_AMBIENT_TEMPERATURE) {
             celsius = event.values[0];
-        } else if (event.sensor.getType() == Sensor.TYPE_PRESSURE) {
+            sensorValues.append("Temperature").append(",").append(celsius).append(",");
+
+        } */else if (type == Sensor.TYPE_PRESSURE) {
             hPa = event.values[0];
-        } else if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+            sensorValues.append("Pressure").append(",").append(hPa).append(",");
+        } else if (type == Sensor.TYPE_LIGHT) {
             lux = event.values[0];
-        } /*else if (event.sensor.getType() == Sensor.TYPE_GRAVITY) {
-            //Gravity is already measured in the Accelerometer
-        } */ else {
+            sensorValues.append("Light").append(",").append(lux).append(",");
+
+        } else {
             return;
         }
 
@@ -295,7 +326,6 @@ public class SensorManagerActivity extends BaseActivity implements SensorEventLi
     }
 
 
-
     protected void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
@@ -310,6 +340,22 @@ public class SensorManagerActivity extends BaseActivity implements SensorEventLi
     protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(this);
+    }
+
+    protected void getBundleData() {
+        Bundle bundle = getIntent().getExtras();
+        StringBuilder temp = new StringBuilder();
+        SessionManager session = new SessionManager(getApplicationContext());
+
+        temp.append(session.getUserName()).append(",");
+        temp.append(getBundle(bundle, "layout")).append(",");
+        temp.append(getBundle(bundle, "orientation")).append(",");
+        temp.append(getBundle(bundle, "variation")).append(",");
+        temp.append(getBundle(bundle, "hardwareaddons")).append(",");
+        temp.append(getBundle(bundle, "input")).append(",");
+        temp.append(getBundle(bundle, "posture")).append(",");
+        temp.append(getBundle(bundle, "externalfactors")).append(",");
+        data = temp.toString();
     }
 
 }

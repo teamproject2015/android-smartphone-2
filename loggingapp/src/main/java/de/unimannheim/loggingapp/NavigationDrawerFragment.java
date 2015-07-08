@@ -59,9 +59,9 @@ public class NavigationDrawerFragment extends Fragment {
      */
     public static List<NavigationList> getData() {
         List<NavigationList> navigationLists = new ArrayList<NavigationList>();
-        int icons[] = {R.drawable.ic_home_black_24dp,R.drawable.ic_school_black_24dp, R.drawable.ic_settings_black_24dp, R.drawable.ic_info_black_24dp};
+        int icons[] = {R.drawable.ic_home_black_24dp, R.drawable.ic_school_black_24dp, R.drawable.ic_settings_black_24dp, R.drawable.ic_info_black_24dp};
 
-        String title[] = {"Home","start TouchLogger", "settings", "About Us"};
+        String title[] = {"Home", "start TouchLogger", "settings", "About Us"};
 
         int count = 0;
         for (int index = 0; index < title.length; index++) {
@@ -111,11 +111,17 @@ public class NavigationDrawerFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                if (position == 1) {
+                if (position == 0) {
+                    Intent i = new Intent(getActivity(), MainActivity.class);
+                    startActivity(i);
+                } else if (position == 1) {
                     Intent i = new Intent(getActivity(), TouchloggerActivity.class);
                     startActivity(i);
                 } else if (position == 2) {
                     Toast.makeText(getActivity(), "under progress, working on it", Toast.LENGTH_LONG).show();
+                } else if (position == 3) {
+                    Intent i = new Intent(getActivity(), AboutActivity.class);
+                    startActivity(i);
                 }
             }
 

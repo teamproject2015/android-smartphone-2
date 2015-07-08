@@ -79,11 +79,108 @@
                 android:entries="@array/orientation_arrays"
                 android:prompt="@string/label_orientation" />
 
+            <TextView
+                android:id="@+id/textView_variation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_variation"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_below="@+id/spinner_orientation"
+                android:layout_alignEnd="@+id/textView_orientation"
+                android:layout_marginTop="10dp" />
+
+            <Spinner
+                android:id="@+id/spinner_variation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/spinner_orientation"
+                android:layout_alignTop="@+id/textView_variation"
+                android:entries="@array/variation_arrays"
+                android:prompt="@string/label_variation" />
+
+
+            <TextView
+                android:id="@+id/textView_addons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_hardwareaddons"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_below="@+id/spinner_variation"
+                android:layout_alignEnd="@+id/textView_variation"
+                android:layout_marginTop="10dp" />
+
+            <Spinner
+                android:id="@+id/spinner_addons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/spinner_variation"
+                android:layout_alignTop="@+id/textView_addons"
+                android:entries="@array/hardware_addons_arrays"
+                android:prompt="@string/label_hardwareaddons" />
+
+
+            <TextView
+                android:id="@+id/textView_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_input"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_below="@+id/spinner_addons"
+                android:layout_alignEnd="@+id/textView_addons"
+                android:layout_marginTop="10dp" />
+
+            <Spinner
+                android:id="@+id/spinner_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/spinner_addons"
+                android:layout_alignTop="@+id/textView_input"
+                android:entries="@array/input_Arrays"
+                android:prompt="@string/label_input" />
+
+            <TextView
+                android:id="@+id/textView_posture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_posture"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_below="@+id/spinner_input"
+                android:layout_alignEnd="@+id/textView_input"
+                android:layout_marginTop="10dp" />
+
+            <Spinner
+                android:id="@+id/spinner_posture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/spinner_input"
+                android:layout_alignTop="@+id/textView_posture"
+                android:entries="@array/posture_Arrays"
+                android:prompt="@string/label_posture" />
+
+            <TextView
+                android:id="@+id/textView_externalFactors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_externalfactors"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_below="@+id/spinner_posture"
+                android:layout_alignEnd="@+id/textView_posture"
+                android:layout_marginTop="10dp" />
+
+            <Spinner
+                android:id="@+id/spinner_externalFactors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/spinner_posture"
+                android:layout_alignTop="@+id/textView_externalFactors"
+                android:entries="@array/externalfactors_Arrays"
+                android:prompt="@string/label_externalfactors" />
+
             <Button
                 android:id="@+id/button_touchLoggerContinue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/spinner_orientation"
+                android:layout_below="@+id/spinner_externalFactors"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="40dp"
                 android:text="@string/button_continue" />

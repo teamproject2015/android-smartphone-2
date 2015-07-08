@@ -1,14 +1,22 @@
 package de.unimannheim.loggingapp;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.content.Context;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,6 +33,8 @@ import java.io.OutputStreamWriter;
 public class BaseActivity extends AppCompatActivity {
 
     private static final String CLASS_NAME = "BaseActivity";
+
+    protected static final int KEYSTROKE_COUNT = 40;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,7 +70,7 @@ public class BaseActivity extends AppCompatActivity {
             //setContentView(R.layout.activity_touchlogger);
         }*/
 
-        if(id == R.id.home) {
+        if (id == R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
         }
 
@@ -72,7 +82,8 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param data data which contains the Logger values
      */
-    protected void writeToFile(String data,String fileName) {
+    protected void writeToFile(String data, String fileName) {
+        boolean isNewFile = false;
         try {
             File sdCard = Environment.getExternalStorageDirectory();
             Log.i(CLASS_NAME, "sdCard-->" + sdCard.getAbsolutePath());
@@ -80,22 +91,28 @@ public class BaseActivity extends AppCompatActivity {
             directory.mkdirs();
             File file = new File(directory, fileName);
             FileOutputStream fos;
+            if(!file.exists()) {
+                isNewFile = true;
+            }
             try {
                 fos = new FileOutputStream(file, true);
-                Log.d(CLASS_NAME, "Data is append to the File "+fileName);
+                Log.d(CLASS_NAME, "Data is append to the File " + fileName);
             } catch (FileNotFoundException fileNotFoundException) {
                 fos = new FileOutputStream(file);
-                Log.d(CLASS_NAME, "File "+fileName+" is created with new data");
+                Log.d(CLASS_NAME, "File " + fileName + " is created with new data");
             }
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fos);
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
 
+            if(isNewFile) {
+                outputStreamWriter.write(getString(R.string.file_headerfields)+"\r\n"+data);
+            } else {
+                outputStreamWriter.write(data);
+            }
+            outputStreamWriter.close();
 
         } catch (IOException e) {
             Log.e(CLASS_NAME, "File write failed: " + e.toString());
         }
-
     }
 
     protected String readFromFile(String fileName) {
@@ -124,4 +141,53 @@ public class BaseActivity extends AppCompatActivity {
 
         return ret;
     }
+
+
+    protected KeyboardView callCustomKeyboard(View view,Keyboard mKeyboard,int keyboardViewId ) {
+
+        // Lookup the KeyboardView
+        KeyboardView mKeyboardView = (KeyboardView) findViewById(keyboardViewId);
+        // Attach the customkeyboard to the view
+        mKeyboardView.setKeyboard(mKeyboard);
+
+        mKeyboardView.setVisibility(View.VISIBLE);
+
+        mKeyboardView.setEnabled(true);
+
+        ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+        EditText edittext = (EditText) findViewById(R.id.editText_key);
+
+        // Disable standard customkeyboard hard way
+        // NOTE There is also an easy way: 'edittext.setInputType(InputType.TYPE_NULL)'
+        // (but you will not have a cursor, and no 'edittext.setCursorVisible(true)' doesn't work )
+        edittext.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                EditText edittext = (EditText) v;
+                int inType = edittext.getInputType();       // Backup the input type
+                edittext.setInputType(InputType.TYPE_NULL); // Disable standard customkeyboard
+                edittext.onTouchEvent(event);               // Call native handler
+                edittext.setInputType(inType);              // Restore input type
+                return true; // Consume touch event
+            }
+        });
+        // Disable spell check (hex strings look like words to Android)
+        edittext.setInputType(edittext.getInputType() | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+
+        return mKeyboardView;
+    }
+
+    /**
+     *c This method returns the Bundle value for the @param value
+     * @param bundle Bundle Object Should be passed
+     * @param value Key for the Bundle
+     * @return
+     */
+    protected String getBundle(Bundle bundle,String value) {
+       return bundle.getString(value);
+    }
+
+
 }
