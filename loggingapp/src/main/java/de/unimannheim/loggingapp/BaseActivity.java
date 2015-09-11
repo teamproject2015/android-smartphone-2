@@ -153,6 +153,7 @@ public class BaseActivity extends AppCompatActivity {
         mKeyboardView.setVisibility(View.VISIBLE);
 
         mKeyboardView.setEnabled(true);
+        mKeyboardView.setPreviewEnabled(false);
 
         ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(view.getWindowToken(), 0);

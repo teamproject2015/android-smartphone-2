@@ -61,7 +61,7 @@ public class PinCodeActivity extends SensorManagerActivity {
                     if (editable != null && start > 0)
                         editable.delete(start - 1, start);
                 } else {
-                    Log.i(CLASS_NAME, "You just pressed " + primaryCode + " button");
+                    //Log.i(CLASS_NAME, "You just pressed " + primaryCode + " button");
                     editable.insert(start, Character.toString((char) primaryCode));
                 }
             }
@@ -107,7 +107,7 @@ public class PinCodeActivity extends SensorManagerActivity {
                 }
 
                 //final EditText textMessage = (EditText) findViewById(R.id.editText_key);
-                Log.i(CLASS_NAME, "generatedKey value = " + generatedKey);
+                //Log.i(CLASS_NAME, "generatedKey value = " + generatedKey);
                 TextWatcher tw = new TextWatcher() {
                     public void afterTextChanged(Editable s) {
                         generateRandomKey(NUMERIC_RANDOMLETTERS);

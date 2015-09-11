@@ -9,7 +9,7 @@
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar"
@@ -27,20 +27,39 @@
             android:id="@+id/textView_key"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="30dp"
+            android:layout_alignBottom="@+id/textView_typeLabel"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/textView_typeLabel"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textView_typedKeyLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_typedKey"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_alignTop="@+id/textView_key"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/textView_typedKey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView_typedKeyLabel"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/textView_typedKeyLabel"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
             android:id="@+id/editText_key"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="3dp"
-            android:inputType="text" />
+            android:inputType="text"
+            android:layout_below="@+id/textView_typedKeyLabel"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/textView_typedKeyLabel" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.inputmethodservice.KeyboardView
         android:id="@+id/keyboardview"
@@ -50,6 +69,8 @@
         android:layout_centerHorizontal="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:background="@drawable/keyboard_background"
+        android:keyBackground="@drawable/btn_keyboard_key"
         android:visibility="gone" />
 
 </RelativeLayout>

@@ -9,13 +9,6 @@
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
-    <View
-        android:id="@+id/toolbar_shadow"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@drawable/toolbar_dropshadow"
-        android:foreground="@drawable/toolbar_dropshadow" />
-
     <android.support.v4.widget.DrawerLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/main_drawerLayout"
@@ -24,8 +17,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:foreground="@drawable/toolbar_dropshadow">
+            android:layout_height="match_parent">
 
             <EditText
                 android:id="@+id/editText_personName"

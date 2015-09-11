@@ -11,6 +11,7 @@
     <!-- Labels-->
     <string name="button_save" translatable="false">Save</string>
     <string name="label_type">Please type key:</string>
+    <string name="label_typedKey">You typed:</string>
 
     <string name="label_chooseLayoutandOrient">Please Choose the Layout &amp; Orientation</string>
     <string name="label_layout">Layout</string>
@@ -98,5 +99,33 @@
 
     <!-- Custom keyboard -->
     <string name="word_separators">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
+    <string name="default_umlaut_a">a</string>
+    <string name="default_umlaut_b">b</string>
+    <string name="default_umlaut_c">c</string>
+    <string name="default_umlaut_d">d</string>
+    <string name="default_umlaut_e">e</string>
+    <string name="default_umlaut_f">f</string>
+    <string name="default_umlaut_g">g</string>
+    <string name="default_umlaut_h">h</string>
+    <string name="default_umlaut_i">i</string>
+    <string name="default_umlaut_j">j</string>
+    <string name="default_umlaut_k">k</string>
+    <string name="default_umlaut_l">l</string>
+    <string name="default_umlaut_m">m</string>
+    <string name="default_umlaut_n">n</string>
+    <string name="default_umlaut_o">o</string>
+    <string name="default_umlaut_p">p</string>
+    <string name="default_umlaut_q">q</string>
+    <string name="default_umlaut_r">r</string>
+    <string name="default_umlaut_s">s</string>
+    <string name="default_umlaut_t">t</string>
+    <string name="default_umlaut_u">u</string>
+    <string name="default_umlaut_v">v</string>
+    <string name="default_umlaut_w">w</string>
+    <string name="default_umlaut_x">x</string>
+    <string name="default_umlaut_y">y</string>
+    <string name="default_umlaut_z">z</string>
+    <string name="default_umlaut_none" />
+
 
 </resources>

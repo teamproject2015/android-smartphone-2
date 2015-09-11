@@ -50,10 +50,11 @@ public class MainActivity extends BaseActivity {
             buttonContinue.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     // Perform action on click
-                    Log.i("", "buttonContinue is pressed");
+                    Log.i("MainActivity", "buttonContinue is pressed");
                     session.setUserName(userName.getText().toString());
-                    Intent activityChangeIntent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(activityChangeIntent);
+                    buttonContinue.setEnabled(false);
+                    //startActivity(getIntent());
+                    recreate();
                 }
             });
         }

@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import de.unimannheim.loggingapp.BaseActivity;
@@ -61,6 +63,11 @@ public class SensorManagerActivity extends BaseActivity implements SensorEventLi
     private StringBuilder sensorValues = new StringBuilder();
     private int keyCount;
     protected String data;
+    //ArrayList<String> chars = new ArrayList<>();
+    static Random rnd = new Random();
+    private String keys;
+    private char[] randomKeys;
+    private int charCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +111,18 @@ public class SensorManagerActivity extends BaseActivity implements SensorEventLi
      * the key stocks
      */
     protected void generateRandomKey(String randomLetters) {
-        Random rnd = new Random();
+
+        if(randomKeys == null || randomKeys.length==0) {
+            //String value = String.valueOf(randomLetters.charAt(rnd.nextInt(randomLetters.length())));
+            randomKeys  = shuffleArray(randomLetters.toCharArray());
+            charCount =0;
+        }
 
         if(keyCount==39 || keyCount==0) {
-            generatedKey = String.valueOf(randomLetters.charAt(rnd.nextInt(randomLetters.length())));
+            if(randomKeys.length-1 == charCount) {
+                generatedKey = "All keys are finished";
+            }
+            generatedKey = String.valueOf(randomKeys[charCount++]);
         }
         if(keyCount==39) {
             keyCount = 0;
@@ -116,6 +131,37 @@ public class SensorManagerActivity extends BaseActivity implements SensorEventLi
         TextView generateKeyForTextView = (TextView) findViewById(R.id.textView_key);
         generateKeyForTextView.setText(generatedKey);
     }
+
+    /*
+     * Implementing Fisher–Yates shuffle
+     */
+    static char[] shuffleArray(char[] ar) {
+        for (int i = ar.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            char a = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
+        }
+        return ar;
+    }
+
+    /**
+     * recursiveRandomStr method will remove the repeated characters
+     * which are produced in Random character generation
+     *
+     * @param randomLetters
+     * @return
+     */
+     /* private String recursiveRandomStr(String randomLetter) {
+
+        if(!randomKeys.contains(randomLetter)) {
+            randomKeys.add(randomLetter);
+        } else {
+            recursiveRandomStr(randomLetter);
+        }
+        return randomLetter;
+    } */
 
     /**
      * When the User press/ touch the screen the event from OnTouchevent will be
@@ -187,7 +233,7 @@ public class SensorManagerActivity extends BaseActivity implements SensorEventLi
         keyStroke.append(hPa).append("\r\n");*/
 
         logValues = keyStroke.toString();
-        Log.i(CLASS_NAME, "logValues------------->" + logValues);
+        //Log.i(CLASS_NAME, "logValues------------->" + logValues);
         return true;
     }
 

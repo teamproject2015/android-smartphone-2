@@ -46,8 +46,28 @@
         android:layout_alignEnd="@+id/textView_key"
         android:layout_alignStart="@+id/textView_typeLabel"
         android:layout_below="@+id/textView_key"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
         android:inputType="text" />
+
+    <TextView
+        android:id="@+id/textView_typedKeyLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_typedKey"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/editText_key" />
+
+    <TextView
+        android:id="@+id/textView_typedKey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView_typedKeyLabel"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@+id/textView_typedKeyLabel"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
     <android.inputmethodservice.KeyboardView
@@ -58,6 +78,10 @@
         android:layout_centerHorizontal="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:background="@drawable/keyboard_background"
+        android:keyBackground="@drawable/btn_keyboard_key"
         android:visibility="gone" />
+
+
 
 </RelativeLayout>

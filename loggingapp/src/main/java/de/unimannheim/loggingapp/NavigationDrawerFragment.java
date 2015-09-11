@@ -112,10 +112,10 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 if (position == 0) {
-                    Intent i = new Intent(getActivity(), MainActivity.class);
+                    Intent i = new Intent(getActivity(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(i);
                 } else if (position == 1) {
-                    Intent i = new Intent(getActivity(), TouchloggerActivity.class);
+                    Intent i = new Intent(getActivity(), TouchloggerActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(i);
                 } else if (position == 2) {
                     Toast.makeText(getActivity(), "under progress, working on it", Toast.LENGTH_LONG).show();
@@ -123,6 +123,7 @@ public class NavigationDrawerFragment extends Fragment {
                     Intent i = new Intent(getActivity(), AboutActivity.class);
                     startActivity(i);
                 }
+                mDrawerLayout.closeDrawers();
             }
 
             @Override
@@ -167,9 +168,10 @@ public class NavigationDrawerFragment extends Fragment {
             }*/
         };
 
-        if (!mUserLearnDrawer && !mFromSavedInstancedstate) {
+        /*if (!mUserLearnDrawer && !mFromSavedInstancedstate) {
             mDrawerLayout.openDrawer(containerView);
-        }
+        } */
+
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerLayout.post(new Runnable() {
             @Override

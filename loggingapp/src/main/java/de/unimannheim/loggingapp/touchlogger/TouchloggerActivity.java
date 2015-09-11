@@ -113,11 +113,11 @@ public class TouchloggerActivity extends BaseActivity {
                     int orientationPosition = orientation.getSelectedItemPosition();
                     Log.d(CLASS_NAME, layoutPosition + " and " + orientationPosition + " is selected");
                     int position = 0 ;
-                    if (position == 0) {
+                    if (orientationPosition == 0) {
                         position = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-                    } else if (position == 1) {
+                    } else if (orientationPosition == 1) {
                         position = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-                    } else if (position == 2) {
+                    } else if (orientationPosition == 2) {
                         position = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
                     }
                     //setContentView(R.layout.activity_touchlogger_keyboard);

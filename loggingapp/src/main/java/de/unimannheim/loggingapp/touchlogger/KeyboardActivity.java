@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import de.unimannheim.loggingapp.R;
@@ -30,7 +31,7 @@ public class KeyboardActivity extends SensorManagerActivity {
 
     private static final String CLASS_NAME = KeyboardActivity.class.getName();
 
-    private static String ALPHANUMERIC_RANDOMLETTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static String ALPHANUMERIC_RANDOMLETTERS = "0123456789abcdefghijklmnopqrstuvwxyz";
 
     private int count;
     private boolean mCapsLock;
@@ -40,7 +41,7 @@ public class KeyboardActivity extends SensorManagerActivity {
     private Keyboard mSymbolsKeyboard;
     private Keyboard mSymbolsShiftedKeyboard;
     private KeyboardView mKeyboardView;
-
+    private TextView typedKeyTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class KeyboardActivity extends SensorManagerActivity {
         }
         Bundle bundle = getIntent().getExtras();
         int orientation = bundle.getInt("orientationPosition");
+        typedKeyTextView = (TextView) findViewById(R.id.textView_typedKey);
 
         getBundleData();
 
@@ -125,6 +127,7 @@ public class KeyboardActivity extends SensorManagerActivity {
             return;
         if (start > 0) {
             editable.delete(start - 1, start);
+            typedKeyTextView.setText(editable.toString());
         }
     }
 
@@ -165,7 +168,7 @@ public class KeyboardActivity extends SensorManagerActivity {
         }
 
         editable.insert(start, Character.toString((char) primaryCode));
-
+        typedKeyTextView.setText(editable.toString());
     }
 
 
@@ -205,7 +208,7 @@ public class KeyboardActivity extends SensorManagerActivity {
                 }
 
                 //final EditText textMessage = (EditText) findViewById(R.id.editText_key);
-                Log.i(CLASS_NAME, "generatedKey value = " + generatedKey);
+                //Log.i(CLASS_NAME, "generatedKey value = " + generatedKey);
                 TextWatcher tw = new TextWatcher() {
                     public void afterTextChanged(Editable s) {
                         generateRandomKey(ALPHANUMERIC_RANDOMLETTERS);
