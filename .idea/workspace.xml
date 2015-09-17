@@ -6,61 +6,16 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="DEBUG" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="INFO" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96735279-574c-4e01-bbbd-93cbadc6e0e4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/drawable/qwerty_key_icon_backspace.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/drawable/qwerty_key_icon_backspace_pressed.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/drawable-v21/sym_keyboard_feedback_shift.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/android-smartphone-2.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/drawable/qwerty_key_icon_backspace_xml.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" />
-      <change type="DELETED" beforePath="C:\Users\D064747\Documents\GitHub\android-smartphone-2\.idea\inspectionProfiles\Project_Default.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\D064747\Documents\GitHub\android-smartphone-2\.idea\inspectionProfiles\profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\D064747\Documents\GitHub\android-smartphone-2\.idea\scopes\scope_settings.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/mipmap-hdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/mipmap-hdpi/ic_launcher.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/mipmap-mdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/mipmap-mdpi/ic_launcher.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/mipmap-xhdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/mipmap-xhdpi/ic_launcher.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/mipmap-xxhdpi/ic_launcher.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/mipmap-xxxhdpi/ic_launcher.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/BaseActivity.java" afterPath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/BaseActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/IconGridActivity.java" afterPath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/IconGridActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/KeyboardActivity.java" afterPath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/KeyboardActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/MainActivity.java" afterPath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/NavigationDrawerFragment.java" afterPath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/NavigationDrawerFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/PinCodeActivity.java" afterPath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/PinCodeActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/SensorManagerActivity.java" afterPath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/SensorManagerActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/TouchloggerActivity.java" afterPath="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/TouchloggerActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_main_appbar.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_main_appbar.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_touchlogger.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_touchlogger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/layout/app_bar.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/layout/app_bar.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_22_2_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_22_2_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/build.gradle" afterPath="$PROJECT_DIR$/loggingapp/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/layout/common_touchlogger.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/layout/common_touchlogger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/layout-land/common_touchlogger.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/layout-land/common_touchlogger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/xml/customkeyboard.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/xml/customkeyboard.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/xml/customkeyboard_shift.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/xml/customkeyboard_shift.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/xml/customkeyboard_symbols.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/xml/customkeyboard_symbols.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/values/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/dspec_0_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/dspec_0_1_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/library_1_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/library_1_3.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/loggingapp.iml" afterPath="$PROJECT_DIR$/loggingapp/loggingapp.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/xml/pinkeyboard.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/xml/pinkeyboard.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_22_2_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_22_2_0.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/loggingapp/src/main/res/values/styles.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_22_2_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_annotations_22_2_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_22_2_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_22_2_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loggingapp/version.properties" afterPath="$PROJECT_DIR$/loggingapp/version.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -90,9 +45,45 @@
     <favorites_list name="android-smartphone-2" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="SensorManagerActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/SensorManagerActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.2161235">
+              <caret line="178" column="18" selection-start-line="178" selection-start-column="18" selection-end-line="178" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="KeyboardActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/KeyboardActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.586207">
+              <caret line="197" column="72" selection-start-line="197" selection-start-column="68" selection-end-line="197" selection-end-column="72" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.481482">
+              <caret line="92" column="160" selection-start-line="92" selection-start-column="160" selection-end-line="92" selection-end-column="160" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="mdhav538" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
@@ -1559,7 +1550,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/loggingapp/src/main/res/xml/pinkeyboard.xml" />
-        <option value="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/PinCodeActivity.java" />
         <option value="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/MainActivity.java" />
         <option value="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/NavigationDrawerFragment.java" />
         <option value="$PROJECT_DIR$/loggingapp/src/main/AndroidManifest.xml" />
@@ -1567,8 +1557,6 @@
         <option value="$PROJECT_DIR$/loggingapp/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/loggingapp/src/main/res/layout/app_bar.xml" />
         <option value="$PROJECT_DIR$/loggingapp/build.gradle" />
-        <option value="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/SensorManagerActivity.java" />
-        <option value="$PROJECT_DIR$/loggingapp/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/loggingapp/src/main/res/layout/common_touchlogger.xml" />
         <option value="$PROJECT_DIR$/loggingapp/src/main/res/xml/customkeyboard_shift.xml" />
         <option value="$PROJECT_DIR$/loggingapp/src/main/res/xml/customkeyboard_symbols.xml" />
@@ -1576,10 +1564,14 @@
         <option value="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/TouchloggerActivity.java" />
         <option value="$PROJECT_DIR$/loggingapp/src/main/res/layout-land/common_touchlogger.xml" />
         <option value="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/BaseActivity.java" />
-        <option value="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/KeyboardActivity.java" />
         <option value="$PROJECT_DIR$/loggingapp/src/main/res/xml/customkeyboard.xml" />
         <option value="$PROJECT_DIR$/loggingapp/src/main/res/values-land/dimens.xml" />
         <option value="$PROJECT_DIR$/loggingapp/src/main/res/values/dimens.xml" />
+        <option value="$PROJECT_DIR$/loggingapp/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/PinCodeActivity.java" />
+        <option value="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/IconGridActivity.java" />
+        <option value="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/KeyboardActivity.java" />
+        <option value="$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/SensorManagerActivity.java" />
       </list>
     </option>
   </component>
@@ -1622,9 +1614,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1642,10 +1632,114 @@
               <option name="myItemId" value="android-smartphone-2" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loggingapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-smartphone-2" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loggingapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-smartphone-2" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loggingapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loggingapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-smartphone-2" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loggingapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loggingapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="touchlogger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-smartphone-2" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loggingapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loggingapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="session" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-smartphone-2" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loggingapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="loggingapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pojo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1658,7 +1752,7 @@
     <property name="last_directory_selection" value="$PROJECT_DIR$/loggingapp/src/main/res/drawable" />
     <property name="android.project.structure.last.selected" value="loggingapp" />
     <property name="android.project.structure.proportion" value="0.15" />
-    <property name="SearchEverywhereHistoryKey" value="senso&#9;FILE&#9;file://C:/Users/D064747/Documents/GitHub/android-smartphone-2/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/SensorManagerActivity.java&#10;sensor&#9;FILE&#9;file://C:/Users/D064747/Documents/GitHub/android-smartphone-2/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/SensorManagerActivity.java" />
+    <property name="SearchEverywhereHistoryKey" value="string&#9;FILE&#9;file://C:/Users/D064747/Documents/GitHub/android-smartphone-2/loggingapp/src/main/res/values/strings.xml&#10;senso&#9;FILE&#9;file://C:/Users/D064747/Documents/GitHub/android-smartphone-2/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/SensorManagerActivity.java&#10;sensor&#9;FILE&#9;file://C:/Users/D064747/Documents/GitHub/android-smartphone-2/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/SensorManagerActivity.java" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -1859,6 +1953,13 @@
       <option name="number" value="Default" />
       <updated>1440357497364</updated>
     </task>
+    <task id="LOCAL-00001" summary="Minor Bug fixes">
+      <created>1441990554032</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1441990554032</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1872,7 +1973,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39842984" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32814237" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34816462" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -1887,8 +1988,8 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1934,34 +2035,17 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Minor Bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor Bug fixes" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/KeyboardActivity.java</url>
-          <line>64</line>
-          <properties />
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/KeyboardActivity.java</url>
-          <line>72</line>
-          <properties />
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="20" />
+      <option name="time" value="21" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/KeyboardActionListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/../../LocalHub/Android/sdk/platforms/android-21/android.jar!/android/inputmethodservice/Keyboard.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.148148">
@@ -1995,13 +2079,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/PinCodeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.8947369">
-          <caret line="104" column="35" selection-start-line="104" selection-start-column="35" selection-end-line="104" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2025,53 +2102,53 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/custom_row.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.731454">
           <caret line="29" column="42" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_about.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_about.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.275862">
           <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/fragment_navigation_drawer.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/fragment_navigation_drawer.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_touchlogger_pincode.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_touchlogger_pincode.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.862069">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_touchlogger_icongrid.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_touchlogger_icongrid.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/drawable/toolbar_dropshadow.xml">
@@ -2089,13 +2166,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_main_appbar.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.44530046">
           <caret line="17" column="23" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="23" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/loggingapp/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values-v21/values.xml">
@@ -2162,36 +2239,22 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/app_bar.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.862069">
           <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_touchlogger_keyboard.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.185185">
-          <caret line="13" column="32" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_touchlogger_keyboard.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.6896553">
           <caret line="8" column="42" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="42" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/SensorManagerActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="130" column="85" selection-start-line="130" selection-start-column="8" selection-end-line="130" selection-end-column="85" />
         </state>
       </provider>
     </entry>
@@ -2210,13 +2273,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/activity_touchlogger.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.60534126">
           <caret line="24" column="48" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/xml/pref_data_sync.xml">
@@ -2289,13 +2352,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/TouchloggerActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32761577">
-          <caret line="104" column="42" selection-start-line="104" selection-start-column="42" selection-end-line="104" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/xml/customkeyboard.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.50428814">
@@ -2304,23 +2360,23 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout/common_touchlogger.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.534296">
           <caret line="50" column="35" selection-start-line="41" selection-start-column="4" selection-end-line="50" selection-end-column="35" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout-land/common_touchlogger.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/layout-land/common_touchlogger.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="34" column="17" selection-start-line="33" selection-start-column="0" selection-end-line="34" selection-end-column="17" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/BaseActivity.java">
@@ -2330,18 +2386,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/KeyboardActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="45" selection-start-line="41" selection-start-column="45" selection-end-line="41" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/loggingapp/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.40823328">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.481482">
+          <caret line="92" column="160" selection-start-line="92" selection-start-column="160" selection-end-line="92" selection-end-column="160" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/TouchloggerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="104" column="42" selection-start-line="104" selection-start-column="42" selection-end-line="104" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/PinCodeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="99" column="47" selection-start-line="99" selection-start-column="47" selection-end-line="99" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/IconGridActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6624569">
+          <caret line="224" column="41" selection-start-line="224" selection-start-column="41" selection-end-line="224" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/KeyboardActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.586207">
+          <caret line="197" column="72" selection-start-line="197" selection-start-column="68" selection-end-line="197" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loggingapp/src/main/java/de/unimannheim/loggingapp/touchlogger/SensorManagerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2161235">
+          <caret line="178" column="18" selection-start-line="178" selection-start-column="18" selection-end-line="178" selection-end-column="18" />
           <folding />
         </state>
       </provider>

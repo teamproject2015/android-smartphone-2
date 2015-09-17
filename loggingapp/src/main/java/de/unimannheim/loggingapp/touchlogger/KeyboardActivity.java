@@ -31,7 +31,7 @@ public class KeyboardActivity extends SensorManagerActivity {
 
     private static final String CLASS_NAME = KeyboardActivity.class.getName();
 
-    private static String ALPHANUMERIC_RANDOMLETTERS = "0123456789abcdefghijklmnopqrstuvwxyz";
+    private static String ALPHANUMERIC_RANDOMLETTERS = "abcdefghijklmnopqrstuvwxyz";
 
     private int count;
     private boolean mCapsLock;
@@ -199,11 +199,11 @@ public class KeyboardActivity extends SensorManagerActivity {
 
                 count++;
                 if (count == KEYSTROKE_COUNT) {
-                    writeToFile(logValues, FILENAME);
+                    writeToFile(logValues.toString(), FILENAME);
                     Toast.makeText(getApplicationContext(),
                             "Key Stocks Saved",
                             Toast.LENGTH_SHORT).show();
-                    logValues="";
+                    logValues.setLength(0);;
                     count = 0;
                 }
 

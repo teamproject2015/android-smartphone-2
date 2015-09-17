@@ -98,11 +98,11 @@ public class PinCodeActivity extends SensorManagerActivity {
 
                 count++;
                 if (count == KEYSTROKE_COUNT) {
-                    writeToFile(logValues, FILENAME);
+                    writeToFile(logValues.toString(), FILENAME);
                     Toast.makeText(getApplicationContext(),
                             "Key Stocks Saved",
                             Toast.LENGTH_SHORT).show();
-                    logValues = "";
+                    logValues.setLength(0);
                     count = 0;
                 }
 

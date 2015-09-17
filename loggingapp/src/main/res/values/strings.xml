@@ -90,7 +90,7 @@
     <string name="label_icongridtitle">Icon Matching Game</string>
     <string name="label_icongrid_matchicons">Please match icons which are equal</string>
 
-    <string name="file_headerfields" translatable="false">User,Layout,Orientation,Variation,Hardware Addon,Input,Posture,External Factors,Key,X,Y,EventTime,DownTime,Sensor,Coordinates,,,</string>
+    <string name="file_headerfields" translatable="false">User,Layout,Orientation,Variation,Hardware Addon,Input,Posture,External Factors,Key,X,Y,DownTime,EventTime,Sensor,Coordinates,,,</string>
     <string name="title_activity_about">About Us</string>
 
     <!-- About Activity -->
