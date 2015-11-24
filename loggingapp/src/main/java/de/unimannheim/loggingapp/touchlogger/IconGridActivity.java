@@ -23,6 +23,7 @@ import java.util.TimerTask;
 
 import de.unimannheim.loggingapp.R;
 import de.unimannheim.loggingapp.pojo.Card;
+import de.unimannheim.loggingapp.sensors.SensorManagerActivity;
 
 public class IconGridActivity extends SensorManagerActivity {
 
@@ -214,7 +215,7 @@ public class IconGridActivity extends SensorManagerActivity {
 
             if (key != 999) {
                 generatedKey = String.valueOf(key);
-                recordTouchEvent(event, null, false);
+                recordTouchEvent(event, null,0,0);
 
                 count++;
                 if (count == KEYSTROKE_COUNT) {

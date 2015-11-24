@@ -1,28 +1,23 @@
 package de.unimannheim.loggingapp.touchlogger;
 
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Display;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import de.unimannheim.loggingapp.R;
-import de.unimannheim.loggingapp.session.SessionManager;
+import de.unimannheim.loggingapp.sensors.SensorManagerActivity;
 
 
 public class KeyboardActivity extends SensorManagerActivity {
@@ -42,6 +37,7 @@ public class KeyboardActivity extends SensorManagerActivity {
     private Keyboard mSymbolsShiftedKeyboard;
     private KeyboardView mKeyboardView;
     private TextView typedKeyTextView;
+    private long downTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,12 +186,18 @@ public class KeyboardActivity extends SensorManagerActivity {
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         super.dispatchTouchEvent(event);
-
         EditText keyValue = (EditText) findViewById(R.id.editText_key);
-        if (keyValue.getText() != null
-                && !"".equals(keyValue.getText().toString())) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            downTime = SystemClock.elapsedRealtime();
+        }
+        if(event.getAction() == MotionEvent.ACTION_UP) {
 
-            if(recordTouchEvent(event,keyValue.getText().toString(),true)) {
+            //case MotionEvent.ACTION_UP:
+            //this is the time in milliseconds
+            long upTime = SystemClock.elapsedRealtime();
+            if (keyValue.getText() != null
+                    && !"".equals(keyValue.getText().toString())
+                    && recordTouchEvent(event,keyValue.getText().toString(),downTime,upTime)) {
 
                 count++;
                 if (count == KEYSTROKE_COUNT) {
@@ -225,6 +227,10 @@ public class KeyboardActivity extends SensorManagerActivity {
                 keyValue.removeTextChangedListener(tw);
             }
         }
+
+
+
+
         return true;
     }
 }

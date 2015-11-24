@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unimannheim.loggingapp.adapter.NavigationAdapter;
+import de.unimannheim.loggingapp.graphs.AccelerometerActivity;
 import de.unimannheim.loggingapp.pojo.NavigationList;
 import de.unimannheim.loggingapp.touchlogger.TouchloggerActivity;
 
@@ -59,9 +60,9 @@ public class NavigationDrawerFragment extends Fragment {
      */
     public static List<NavigationList> getData() {
         List<NavigationList> navigationLists = new ArrayList<NavigationList>();
-        int icons[] = {R.drawable.ic_home_black_24dp, R.drawable.ic_school_black_24dp, R.drawable.ic_settings_black_24dp, R.drawable.ic_info_black_24dp};
+        int icons[] = {R.drawable.ic_home_black_24dp, R.drawable.ic_school_black_24dp, R.drawable.ic_settings_black_24dp, R.drawable.ic_info_black_24dp,R.drawable.ic_info_black_24dp};
 
-        String title[] = {"Home", "start TouchLogger", "settings", "About Us"};
+        String title[] = {"Home", "start TouchLogger", "settings", "About Us","graph"};
 
         int count = 0;
         for (int index = 0; index < title.length; index++) {
@@ -121,6 +122,9 @@ public class NavigationDrawerFragment extends Fragment {
                     Toast.makeText(getActivity(), "under progress, working on it", Toast.LENGTH_LONG).show();
                 } else if (position == 3) {
                     Intent i = new Intent(getActivity(), AboutActivity.class);
+                    startActivity(i);
+                } else if (position == 4) {
+                    Intent i = new Intent(getActivity(), AccelerometerActivity.class);
                     startActivity(i);
                 }
                 mDrawerLayout.closeDrawers();

@@ -50,6 +50,11 @@
             android:label="@string/title_activity_about"
             android:launchMode="singleInstance"
             android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".graphs.AccelerometerActivity"
+            android:label="Accelerometer Graph"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

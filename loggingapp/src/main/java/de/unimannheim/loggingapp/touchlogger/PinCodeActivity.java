@@ -1,22 +1,20 @@
 package de.unimannheim.loggingapp.touchlogger;
 
-import android.app.Activity;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import de.unimannheim.loggingapp.R;
+import de.unimannheim.loggingapp.sensors.SensorManagerActivity;
 
 public class PinCodeActivity extends SensorManagerActivity {
 
@@ -91,38 +89,49 @@ public class PinCodeActivity extends SensorManagerActivity {
 
         EditText keyValue = (EditText) findViewById(R.id.editText_key);
         //Toast.makeText(getApplicationContext(), "keyValue-->" + keyValue.getText().toString(), Toast.LENGTH_SHORT).show();
-        if (keyValue.getText() != null
-                && !"".equals(keyValue.getText().toString())) {
+       /* if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            downTime = SystemClock.elapsedRealtime();
+        }*/
+        switch (event.getAction()) {
 
-            if(recordTouchEvent(event,keyValue.getText().toString(),true)) {
+            case MotionEvent.ACTION_UP:
+                //this is the time in milliseconds
+                long upTime = System.currentTimeMillis();
 
-                count++;
-                if (count == KEYSTROKE_COUNT) {
-                    writeToFile(logValues.toString(), FILENAME);
-                    Toast.makeText(getApplicationContext(),
-                            "Key Stocks Saved",
-                            Toast.LENGTH_SHORT).show();
-                    logValues.setLength(0);
-                    count = 0;
+                if (keyValue.getText() != null
+                        && !"".equals(keyValue.getText().toString())
+                        && recordTouchEvent(event, keyValue.getText().toString(),0,upTime)) {
+
+                        count++;
+                        if (count == KEYSTROKE_COUNT) {
+                            writeToFile(logValues.toString(), FILENAME);
+                            Toast.makeText(getApplicationContext(),
+                                    "Key Stocks Saved",
+                                    Toast.LENGTH_SHORT).show();
+                            logValues.setLength(0);
+                            count = 0;
+                        }
+
+                        //final EditText textMessage = (EditText) findViewById(R.id.editText_key);
+                        //Log.i(CLASS_NAME, "generatedKey value = " + generatedKey);
+                        TextWatcher tw = new TextWatcher() {
+                            public void afterTextChanged(Editable s) {
+                                generateRandomKey(NUMERIC_RANDOMLETTERS);
+                            }
+
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            }
+
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            }
+                        };
+                        keyValue.addTextChangedListener(tw);
+                        keyValue.setText("");
+                        keyValue.removeTextChangedListener(tw);
                 }
 
-                //final EditText textMessage = (EditText) findViewById(R.id.editText_key);
-                //Log.i(CLASS_NAME, "generatedKey value = " + generatedKey);
-                TextWatcher tw = new TextWatcher() {
-                    public void afterTextChanged(Editable s) {
-                        generateRandomKey(NUMERIC_RANDOMLETTERS);
-                    }
 
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    }
-                };
-                keyValue.addTextChangedListener(tw);
-                keyValue.setText("");
-                keyValue.removeTextChangedListener(tw);
-            }
+                break;
         }
         return true;
     }
