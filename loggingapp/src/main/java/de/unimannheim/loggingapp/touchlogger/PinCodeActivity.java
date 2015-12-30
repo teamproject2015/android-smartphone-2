@@ -100,7 +100,7 @@ public class PinCodeActivity extends SensorManagerActivity {
 
                 if (keyValue.getText() != null
                         && !"".equals(keyValue.getText().toString())
-                        && recordTouchEvent(event, keyValue.getText().toString(),0,upTime)) {
+                        && recordTouchEvent(event, keyValue.getText().toString(),0,upTime,null,null)) {
 
                         count++;
                         if (count == KEYSTROKE_COUNT) {

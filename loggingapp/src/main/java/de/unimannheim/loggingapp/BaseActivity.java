@@ -82,8 +82,10 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param data data which contains the Logger values
      */
-    protected void writeToFile(String data, String fileName) {
+    protected boolean writeToFile(String data, String fileName) {
+        //Log.i(CLASS_NAME,"data--------->"+data);
         boolean isNewFile = false;
+        boolean isFinished = false;
         try {
             File sdCard = Environment.getExternalStorageDirectory();
             Log.i(CLASS_NAME, "sdCard-->" + sdCard.getAbsolutePath());
@@ -97,7 +99,7 @@ public class BaseActivity extends AppCompatActivity {
             try {
                 fos = new FileOutputStream(file, true);
                 Log.d(CLASS_NAME, "Data is append to the File " + fileName);
-            } catch (FileNotFoundException fileNotFoundException) {
+            } catch (FileNotFoundException fileNotFou0ndException) {
                 fos = new FileOutputStream(file);
                 Log.d(CLASS_NAME, "File " + fileName + " is created with new data");
             }
@@ -109,11 +111,15 @@ public class BaseActivity extends AppCompatActivity {
                 outputStreamWriter.write(data);
             }
             outputStreamWriter.close();
+            isFinished = true;
 
         } catch (IOException e) {
             Log.e(CLASS_NAME, "File write failed: " + e.toString());
         }
+        return isFinished;
     }
+
+
 
     protected String readFromFile(String fileName) {
         String ret = "";

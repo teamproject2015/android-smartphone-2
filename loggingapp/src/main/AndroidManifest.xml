@@ -3,6 +3,8 @@
     package="de.unimannheim.loggingapp">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
 
     <application
         android:allowBackup="true"
@@ -55,6 +57,31 @@
             android:label="Accelerometer Graph"
             android:launchMode="singleInstance"
             android:parentActivityName=".MainActivity"/>
+
+
+        <service
+            android:name=".sensors.AccelerometerService"
+            android:enabled="true" />
+        <service
+            android:name=".sensors.GravityService"
+            android:enabled="true" />
+        <service
+            android:name=".sensors.LightService"
+            android:enabled="true" />
+        <service
+            android:name=".sensors.MagnitudeService"
+            android:enabled="true" />
+        <service
+            android:name=".sensors.PressureService"
+            android:enabled="true" />
+        <service
+            android:name=".sensors.OrientationService"
+            android:enabled="true" />
+        <service
+            android:name=".sensors.GyroscopeService"
+            android:enabled="true" />
+
+
     </application>
 
 </manifest>

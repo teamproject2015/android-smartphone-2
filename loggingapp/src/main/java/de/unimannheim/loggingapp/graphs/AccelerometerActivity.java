@@ -3,7 +3,9 @@ package de.unimannheim.loggingapp.graphs;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.androidplot.Plot;
 import com.androidplot.util.Redrawer;
@@ -15,8 +17,10 @@ import com.androidplot.xy.XYStepMode;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.List;
 
 import de.unimannheim.loggingapp.R;
+import de.unimannheim.loggingapp.sensors.AccelerometerResultReceiver;
 import de.unimannheim.loggingapp.sensors.SensorManagerActivity;
 
 /**
@@ -40,6 +44,11 @@ public class AccelerometerActivity extends SensorManagerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.xy_chart);
+
+        Handler handler = new Handler();
+        SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accelerometerResultReceiver = new AccelerometerResultReceiver(handler);
+        accelerometerResultReceiver.setReceiver(new AcceleroReceiver());
 
 
         // setup the APR History plot:
@@ -81,26 +90,33 @@ public class AccelerometerActivity extends SensorManagerActivity {
     }
 
 
-    // Called whenever a new orSensor reading is taken.
-    @Override
-    public synchronized void onSensorChanged(SensorEvent sensorEvent) {
-        super.onSensorChanged(sensorEvent);
+    private class AcceleroReceiver implements
+            AccelerometerResultReceiver.Receiver {
 
-        if (sensorEvent.sensor.getType() != Sensor.TYPE_ACCELEROMETER) {
-            return;
+        public AcceleroReceiver() {
         }
 
-        // get rid the oldest sample in history:
-        if (rollHistorySeries.size() > HISTORY_SIZE) {
-            rollHistorySeries.removeFirst();
-            pitchHistorySeries.removeFirst();
-            azimuthHistorySeries.removeFirst();
+        @Override
+        public void newEvent(float x, float y, float z) {
+
+            // get rid the oldest sample in history:
+            if (rollHistorySeries.size() > HISTORY_SIZE) {
+                rollHistorySeries.removeFirst();
+                pitchHistorySeries.removeFirst();
+                azimuthHistorySeries.removeFirst();
+            }
+            // add the latest history sample:
+            azimuthHistorySeries.addLast(null, x);
+            pitchHistorySeries.addLast(null, y);
+            rollHistorySeries.addLast(null, z);
         }
-        // add the latest history sample:
-        azimuthHistorySeries.addLast(null, sensorEvent.values[0]);
-        pitchHistorySeries.addLast(null, sensorEvent.values[1]);
-        rollHistorySeries.addLast(null, sensorEvent.values[2]);
+
+        @Override
+        public void error(String error) {
+        }
+
     }
+
 
     @Override
     public void onResume() {

@@ -1,8 +1,11 @@
 package de.unimannheim.loggingapp.touchlogger;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.hardware.Sensor;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
@@ -16,8 +19,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+
+import de.unimannheim.loggingapp.MainActivity;
 import de.unimannheim.loggingapp.R;
+import de.unimannheim.loggingapp.sensors.AccelerometerResultReceiver;
+import de.unimannheim.loggingapp.sensors.AccelerometerService;
+import de.unimannheim.loggingapp.sensors.GravityResultReceiver;
+import de.unimannheim.loggingapp.sensors.GravityService;
+import de.unimannheim.loggingapp.sensors.GyroscopeResultReceiver;
+import de.unimannheim.loggingapp.sensors.GyroscopeService;
+import de.unimannheim.loggingapp.sensors.LightResultReceiver;
+import de.unimannheim.loggingapp.sensors.LightService;
+import de.unimannheim.loggingapp.sensors.MagnitudeResultReceiver;
+import de.unimannheim.loggingapp.sensors.MagnitudeService;
+import de.unimannheim.loggingapp.sensors.OrientationService;
+import de.unimannheim.loggingapp.sensors.PressureResultReceiver;
+import de.unimannheim.loggingapp.sensors.PressureService;
 import de.unimannheim.loggingapp.sensors.SensorManagerActivity;
+import de.unimannheim.loggingapp.utils.Constants;
 
 
 public class KeyboardActivity extends SensorManagerActivity {
@@ -38,6 +58,7 @@ public class KeyboardActivity extends SensorManagerActivity {
     private KeyboardView mKeyboardView;
     private TextView typedKeyTextView;
     private long downTime;
+    private Date beginningTimestamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +110,7 @@ public class KeyboardActivity extends SensorManagerActivity {
 
 
                 if (primaryCode == Keyboard.KEYCODE_DELETE) {
-                    handleBackspace(editable,start);
+                    handleBackspace(editable, start);
                 } else if (primaryCode == Keyboard.KEYCODE_SHIFT) {
                     handleShift();
                 } else if (primaryCode == Keyboard.KEYCODE_MODE_CHANGE
@@ -105,7 +126,7 @@ public class KeyboardActivity extends SensorManagerActivity {
                         current.setShifted(false);
                     }
                 } else {
-                    handleCharacter(primaryCode, keyCodes,editable,start);
+                    handleCharacter(primaryCode, keyCodes, editable, start);
                 }
             }
 
@@ -114,6 +135,7 @@ public class KeyboardActivity extends SensorManagerActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
     }
+
 
 
 
@@ -175,6 +197,28 @@ public class KeyboardActivity extends SensorManagerActivity {
         return true;
     }
 
+
+    private class SaveCSVFile extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+          return writeToFile(params[0], FILENAME);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isFinished) {
+            if(isFinished) {
+                Toast.makeText(getApplicationContext(),
+                        "Key Stocks Saved",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Key Stocks not saved",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     /**
      * When the User press/ touch the screen the event from OnTouchevent will be
      * triggering the onTouch method, the method will save the x,y coordinates
@@ -189,22 +233,27 @@ public class KeyboardActivity extends SensorManagerActivity {
         EditText keyValue = (EditText) findViewById(R.id.editText_key);
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
             downTime = SystemClock.elapsedRealtime();
+            beginningTimestamp = new Date();
         }
         if(event.getAction() == MotionEvent.ACTION_UP) {
 
             //case MotionEvent.ACTION_UP:
             //this is the time in milliseconds
             long upTime = SystemClock.elapsedRealtime();
-            if (keyValue.getText() != null
-                    && !"".equals(keyValue.getText().toString())
-                    && recordTouchEvent(event,keyValue.getText().toString(),downTime,upTime)) {
+            Date endingTimestamp = new Date();
 
+            if (keyValue.getText() != null
+                    && !"".equals(keyValue.getText().toString())) {
+
+                recordTouchEvent(event,keyValue.getText().toString(),downTime,upTime,beginningTimestamp,endingTimestamp);
                 count++;
                 if (count == KEYSTROKE_COUNT) {
-                    writeToFile(logValues.toString(), FILENAME);
+                    /*writeToFile(logValues.toString(), FILENAME);
                     Toast.makeText(getApplicationContext(),
                             "Key Stocks Saved",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT).show();*/
+                    SaveCSVFile saveCSVFile = new SaveCSVFile();
+                    saveCSVFile.execute(logValues.toString());
                     logValues.setLength(0);;
                     count = 0;
                 }
