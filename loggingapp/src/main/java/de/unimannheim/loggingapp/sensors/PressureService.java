@@ -35,7 +35,7 @@ public class PressureService extends Service implements
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE),
-                SensorManager.SENSOR_DELAY_FASTEST);
+                SensorManager.SENSOR_DELAY_UI);
         super.onCreate();
     }
 

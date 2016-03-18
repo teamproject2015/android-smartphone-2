@@ -1,32 +1,22 @@
 package de.unimannheim.loggingapp.sensors;
 
-import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
-import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MotionEvent;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import de.unimannheim.loggingapp.BaseActivity;
 import de.unimannheim.loggingapp.R;
 import de.unimannheim.loggingapp.session.SessionManager;
-import de.unimannheim.loggingapp.touchlogger.KeyboardActivity;
 import de.unimannheim.loggingapp.utils.Constants;
-import de.unimannheim.loggingapp.utils.Vector3;
 
 /**
  * Created by suryadevara on 18-06-2015.
@@ -34,43 +24,34 @@ import de.unimannheim.loggingapp.utils.Vector3;
  */
 public class SensorManagerActivity extends BaseActivity {
 
-    private static final String CLASS_NAME = "SensorManagerActivity";
+    //private static final String CLASS_NAME = "SensorManagerActivity";
 
-    private final float[] deltaRotationVector = new float[4];
-    protected SensorManager mSensorManager;
+    //private final float[] deltaRotationVector = new float[4];
+    /*protected SensorManager mSensorManager;
     protected Sensor mAccelerometer;
     protected Sensor mTemperature;
     protected Sensor mPressure;
     protected Sensor mLight;
     protected Sensor mMagneticField;
     protected Sensor mGravity;
-    protected Sensor mGyroscope;
-
+    protected Sensor mGyroscope;*/
 
     protected float lux;
     protected float hPa;
-    /*protected float[] acceleration = new float[3];
-    protected Vector3 gravity = new Vector3();
-    protected float[] magnitude = new float[3];
-    protected float[] gyroscope = new float[3];
-    protected float[] orientation = new float[3];*/
 
     protected StringBuffer logValues = new StringBuffer();
     protected String generatedKey;
-    //private float RTmp[] = new float[9];
-    //private float Rot[] = new float[9];
-    //private float I[] = new float[9];
+
     protected String data;
     static Random rnd = new Random();
     private char[] randomKeys;
     private int charCount;
 
-    //Accelerometer data
-    protected ArrayList<SensorData> accelerometerData = new ArrayList<SensorData>();
-    protected ArrayList<SensorData> gravityData = new ArrayList<SensorData>();
-    protected ArrayList<SensorData> magnitudeData = new ArrayList<SensorData>();
-    protected ArrayList<SensorData> gyroscopeData = new ArrayList<SensorData>();
-    protected ArrayList<SensorData> orientationData = new ArrayList<SensorData>();
+    protected ArrayList<SensorData> accelerometerData = new ArrayList<>();
+    protected ArrayList<SensorData> gravityData = new ArrayList<>();
+    protected ArrayList<SensorData> magnitudeData = new ArrayList<>();
+    protected ArrayList<SensorData> gyroscopeData = new ArrayList<>();
+    protected ArrayList<SensorData> orientationData = new ArrayList<>();
 
     protected AccelerometerResultReceiver accelerometerResultReceiver;
     protected OrientationResultReceiver orientationResultReceiver;
@@ -86,61 +67,50 @@ public class SensorManagerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         //mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        registerSensors();
         startServices();
+        registerSensors();
     }
 
     public void startServices() {
 
         // start accelerator service
-        if (accelerometerResultReceiver != null) {
             Intent accIntent = new Intent(this, AccelerometerService.class);
             accIntent.putExtra(Constants.EXTRA_RECEIVER,accelerometerResultReceiver);
             startService(accIntent);
-        }
+
 
         // start orientation service
-        if (orientationResultReceiver != null) {
             Intent orientationIntent = new Intent(this,OrientationService.class);
             orientationIntent.putExtra(Constants.EXTRA_RECEIVER,orientationResultReceiver);
             startService(orientationIntent);
-        }
 
         // start gyroscope service
-        if (gyroscopeResultReceiver != null) {
             Intent gyroscopeIntent = new Intent(this, GyroscopeService.class);
             gyroscopeIntent.putExtra(Constants.EXTRA_RECEIVER, gyroscopeResultReceiver);
             startService(gyroscopeIntent);
-        }
 
         // start gravity service
-        if (gravityResultReceiver != null) {
             Intent gravityIntent = new Intent(this, GravityService.class);
             gravityIntent.putExtra(Constants.EXTRA_RECEIVER, gravityResultReceiver);
             startService(gravityIntent);
-        }
+
 
         // start pressure service
-        if (pressureResultReceiver != null) {
             Intent pressureIntent = new Intent(this, PressureService.class);
             pressureIntent.putExtra(Constants.EXTRA_RECEIVER, pressureResultReceiver);
             startService(pressureIntent);
-        }
+
 
         // start light service
-        if (lightResultReceiver != null) {
             Intent lightIntent = new Intent(this, LightService.class);
             lightIntent.putExtra(Constants.EXTRA_RECEIVER, lightResultReceiver);
             startService(lightIntent);
-        }
+
 
         // start light service
-        if (magnitudeResultReceiver != null) {
             Intent magnitudeIntent = new Intent(this, MagnitudeService.class);
             magnitudeIntent.putExtra(Constants.EXTRA_RECEIVER, magnitudeResultReceiver);
             startService(magnitudeIntent);
-        }
-
 
     }
 
@@ -148,30 +118,7 @@ public class SensorManagerActivity extends BaseActivity {
      * Registering all the required Sensors to the App
      */
     protected void registerSensors() {
-        //List<Sensor> sensorsList = mSensorManager.getSensorList(Sensor.TYPE_ALL);
-        //gravity = new Vector3();
 
-       /* mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
-
-        mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-        mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_FASTEST);
-
-        mGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_FASTEST);
-
-        mTemperature = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-        mSensorManager.registerListener(this, mTemperature, SensorManager.SENSOR_DELAY_FASTEST);
-
-        mPressure = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
-        mSensorManager.registerListener(this, mPressure, SensorManager.SENSOR_DELAY_FASTEST);
-
-        mLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        mSensorManager.registerListener(this, mLight, SensorManager.SENSOR_DELAY_FASTEST);
-
-        mMagneticField = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        mSensorManager.registerListener(this, mMagneticField, SensorManager.SENSOR_DELAY_FASTEST);
-*/
         Handler handler = new Handler();
 
         SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -281,8 +228,7 @@ public class SensorManagerActivity extends BaseActivity {
      * @return boolean value
      */
     protected boolean recordTouchEvent(MotionEvent event, String key,
-                                       long downTime, long upTime,
-                                       Date beginningTimestamp, Date endingTimestamp) {
+                                       long downTime, long upTime) {
 
         StringBuilder keyStroke = new StringBuilder();
 
@@ -322,8 +268,6 @@ public class SensorManagerActivity extends BaseActivity {
         //Log.d(CLASS_NAME, "downTime-->" + downTime + " upTime-->" + upTime);
         keyStroke.append(downTime).append(";");
         keyStroke.append(upTime).append(";");
-        keyStroke.append(beginningTimestamp.toString()).append(";");
-        keyStroke.append(endingTimestamp.toString()).append(";");
         StringBuilder tempBuffer = new StringBuilder();
         tempBuffer.append(keyStroke);
         //keyStroke.append(sensorValues).append("\r\n");
@@ -359,76 +303,16 @@ public class SensorManagerActivity extends BaseActivity {
         //keyStroke.append(celsius).append(";");
 
         //Keystroke for Light
-        keyStroke.append(tempBuffer).append("Light").append(";").append(lux).append(";").append(0).append(";").append(0).append("\r\n");
+        //keyStroke.append(tempBuffer).append("Light").append(";").append(lux).append(";").append(0).append(";").append(0).append("\r\n");
         //Keystroke for pressure
-        keyStroke.append(tempBuffer).append("Pressure").append(";").append(hPa).append(";").append(0).append(";").append(0).append("\r\n");
+        keyStroke.append(tempBuffer).append("Pressure").append(";;").append(hPa).append(";").append(0).append(";").append(0).append("\r\n");
 
         logValues.append(keyStroke);
         //Log.i(CLASS_NAME, "logValues------------->" + logValues);
         return true;
     }
 
-    /**
-     * Populate the SensorData to buffer
-     *
-     */
-    public class RecordTouchEvent implements Runnable {
-        private Thread t;
-        private ArrayList<SensorData> sensorData;
-        String name;
-        StringBuilder keyStroke, tempBuffer;
-        long downTime, upTime;
 
-        public RecordTouchEvent(String name, ArrayList<SensorData> sensorData,
-                                  StringBuilder keyStroke, StringBuilder tempBuffer, long downTime, long upTime) {
-            this.sensorData = sensorData;
-            this.keyStroke = keyStroke;
-            this.tempBuffer = tempBuffer;
-            this.downTime = downTime;
-            this.upTime = upTime;
-            this.name = name;
-        }
-
-        @Override
-        public void run() {
-            if (sensorData != null && sensorData.size() > 0) {
-                StringBuilder xAxis = new StringBuilder();
-                StringBuilder yAxis = new StringBuilder();
-                StringBuilder zAxis = new StringBuilder();
-
-                for (SensorData data : sensorData) {
-                    //Log.i(CLASS_NAME, "data-->" + data.toString());
-                    data.getTimestamp();
-                    if (data.getTimestamp() >= downTime) {
-                        if (xAxis.length() > 0) {
-                            xAxis.append(",");
-                            yAxis.append(",");
-                            zAxis.append(",");
-                        }
-                        xAxis.append(data.getX());
-                        yAxis.append(data.getY());
-                        zAxis.append(data.getZ());
-                        if (data.getTimestamp() >= upTime) {
-                            break;
-                        }
-                    }
-                }
-                keyStroke.append(tempBuffer).append(name).append(";").append(xAxis.toString()).append(";")
-                        .append(yAxis.toString()).append(";").append(zAxis.toString()).append("\r\n");
-                sensorData.clear();
-            } else {
-                keyStroke.append(tempBuffer).append(name).append(";;;").append("\r\n");
-            }
-        }
-
-        public void start() {
-            Log.i(CLASS_NAME,"UpdateData Thread Started");
-            if (t == null) {
-                t = new Thread(this);
-                t.start();
-            }
-        }
-    }
 
 
     private void populateSensorData(String name, ArrayList<SensorData> sensorData,
@@ -439,29 +323,34 @@ public class SensorManagerActivity extends BaseActivity {
             StringBuilder xAxis = new StringBuilder();
             StringBuilder yAxis = new StringBuilder();
             StringBuilder zAxis = new StringBuilder();
+            StringBuilder interval = new StringBuilder();
 
             for (SensorData data : sensorData) {
                 //Log.i(CLASS_NAME, "data-->" + data.toString());
-                data.getTimestamp();
-                if (data.getTimestamp() >= downTime) {
+                long timeStamp = data.getTimestamp();
+                if (timeStamp > 0 &&
+                        timeStamp >= downTime) {
                     if (xAxis.length() > 0) {
                         xAxis.append(",");
                         yAxis.append(",");
                         zAxis.append(",");
+                        interval.append(",");
                     }
                     xAxis.append(data.getX());
                     yAxis.append(data.getY());
                     zAxis.append(data.getZ());
-                    if (data.getTimestamp() >= upTime) {
+                    interval.append(timeStamp);
+                    if (timeStamp >= upTime) {
                         break;
                     }
                 }
             }
-            keyStroke.append(tempBuffer).append(name).append(";").append(xAxis.toString()).append(";")
+            keyStroke.append(tempBuffer).append(name).append(";").append(interval.toString()).append(";")
+                    .append(xAxis.toString()).append(";")
                     .append(yAxis.toString()).append(";").append(zAxis.toString()).append("\r\n");
             sensorData.clear();
         } else {
-            keyStroke.append(tempBuffer).append(name).append(";;;").append("\r\n");
+            keyStroke.append(tempBuffer).append(name).append(";;;;").append("\r\n");
         }
     }
 
@@ -684,8 +573,12 @@ public class SensorManagerActivity extends BaseActivity {
     }
 
 
-    private class AccelerometerReceiver implements
+    protected class AccelerometerReceiver implements
             AccelerometerResultReceiver.Receiver {
+
+        //private float x, y, z;
+        SensorData data = null;
+        long timestamp = 0;
 
         public AccelerometerReceiver() {
         }
@@ -693,8 +586,11 @@ public class SensorManagerActivity extends BaseActivity {
         @Override
         public void newEvent(float x, float y, float z) {
             //Log.i(CLASS_NAME,"x="+x+",y="+y+",z="+z);
-            long timestamp = SystemClock.elapsedRealtime();
-            SensorData data = new SensorData(timestamp, x, y, z);
+             /*this.x = x;
+            this.y = y;
+            this.z =z;*/
+            timestamp = System.currentTimeMillis();
+            data = new SensorData(timestamp, x, y, z);
             accelerometerData.add(data);
             /*acceleration[0] = x;
             acceleration[1] = y;
@@ -705,10 +601,14 @@ public class SensorManagerActivity extends BaseActivity {
         @Override
         public void error(String error) {
         }
-
     }
 
+
+
     private class GyroscopeReceiver implements GyroscopeResultReceiver.Receiver {
+
+        SensorData data = null;
+        long timestamp = 0;
 
         public GyroscopeReceiver() {
         }
@@ -716,8 +616,8 @@ public class SensorManagerActivity extends BaseActivity {
         @Override
         public void newEvent(float x, float y, float z) {
             //new UpdateData(gyroscopeData, x, y, z);
-            long timestamp = SystemClock.elapsedRealtime();
-            SensorData data = new SensorData(timestamp, x, y, z);
+            timestamp = System.currentTimeMillis();
+            data = new SensorData(timestamp, x, y, z);
             gyroscopeData.add(data);
            /* gyroscope[0] = x;
             gyroscope[1] = y;
@@ -727,10 +627,12 @@ public class SensorManagerActivity extends BaseActivity {
         @Override
         public void error(String error) {
         }
-
     }
 
     private class GravityReceiver implements GravityResultReceiver.Receiver {
+
+        SensorData data = null;
+        long timestamp = 0;
 
         public GravityReceiver() {
         }
@@ -738,8 +640,8 @@ public class SensorManagerActivity extends BaseActivity {
         @Override
         public void newEvent(float x, float y, float z) {
             //new UpdateData(gravityData, x, y, z);
-            long timestamp = SystemClock.elapsedRealtime();
-            SensorData data = new SensorData(timestamp, x, y, z);
+            timestamp = System.currentTimeMillis();
+            data = new SensorData(timestamp, x, y, z);
             gravityData.add(data);
            /* gravity.x = x;
             gravity.y = y;
@@ -782,14 +684,17 @@ public class SensorManagerActivity extends BaseActivity {
 
     private class MagnitudeReceiver implements MagnitudeResultReceiver.Receiver {
 
+        SensorData data = null;
+        long timestamp = 0;
+
         public MagnitudeReceiver() {
         }
 
         @Override
         public void newEvent(float x, float y, float z) {
             //new UpdateData(magnitudeData, x, y, z);
-            long timestamp = SystemClock.elapsedRealtime();
-            SensorData data = new SensorData(timestamp, x, y, z);
+            timestamp = System.currentTimeMillis();
+            data = new SensorData(timestamp, x, y, z);
             magnitudeData.add(data);
            /* magnitude[0] = x;
             magnitude[1] = y;
@@ -804,6 +709,9 @@ public class SensorManagerActivity extends BaseActivity {
     private class OrientationReceiver implements
             OrientationResultReceiver.Receiver {
 
+        SensorData data = null;
+        long timestamp = 0;
+
         public OrientationReceiver() {
         }
 
@@ -811,8 +719,8 @@ public class SensorManagerActivity extends BaseActivity {
         public void newEvent(float x, float y, float z) {
             /*Log.i(CLASS_NAME,"entered Orientation");
             new UpdateData(orientationData, x, y, z);*/
-            long timestamp = SystemClock.elapsedRealtime();
-            SensorData data = new SensorData(timestamp, x, y, z);
+            timestamp = System.currentTimeMillis();
+            data = new SensorData(timestamp, x, y, z);
             orientationData.add(data);
            /* orientation[0] = x;
             orientation[1] = y;
@@ -822,6 +730,6 @@ public class SensorManagerActivity extends BaseActivity {
         @Override
         public void error(String error) {
         }
-
     }
+
 }

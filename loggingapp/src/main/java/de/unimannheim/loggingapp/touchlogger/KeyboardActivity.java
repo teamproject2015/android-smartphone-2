@@ -1,13 +1,10 @@
 package de.unimannheim.loggingapp.touchlogger;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.hardware.Sensor;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,25 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Date;
-
-import de.unimannheim.loggingapp.MainActivity;
 import de.unimannheim.loggingapp.R;
-import de.unimannheim.loggingapp.sensors.AccelerometerResultReceiver;
-import de.unimannheim.loggingapp.sensors.AccelerometerService;
-import de.unimannheim.loggingapp.sensors.GravityResultReceiver;
-import de.unimannheim.loggingapp.sensors.GravityService;
-import de.unimannheim.loggingapp.sensors.GyroscopeResultReceiver;
-import de.unimannheim.loggingapp.sensors.GyroscopeService;
-import de.unimannheim.loggingapp.sensors.LightResultReceiver;
-import de.unimannheim.loggingapp.sensors.LightService;
-import de.unimannheim.loggingapp.sensors.MagnitudeResultReceiver;
-import de.unimannheim.loggingapp.sensors.MagnitudeService;
-import de.unimannheim.loggingapp.sensors.OrientationService;
-import de.unimannheim.loggingapp.sensors.PressureResultReceiver;
-import de.unimannheim.loggingapp.sensors.PressureService;
 import de.unimannheim.loggingapp.sensors.SensorManagerActivity;
-import de.unimannheim.loggingapp.utils.Constants;
 
 
 public class KeyboardActivity extends SensorManagerActivity {
@@ -58,7 +38,6 @@ public class KeyboardActivity extends SensorManagerActivity {
     private KeyboardView mKeyboardView;
     private TextView typedKeyTextView;
     private long downTime;
-    private Date beginningTimestamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +105,7 @@ public class KeyboardActivity extends SensorManagerActivity {
                         current.setShifted(false);
                     }
                 } else {
-                    handleCharacter(primaryCode, keyCodes, editable, start);
+                    handleCharacter(primaryCode, editable, start);
                 }
             }
 
@@ -179,7 +158,7 @@ public class KeyboardActivity extends SensorManagerActivity {
         }
     }
 
-    private void handleCharacter(int primaryCode, int[] keyCodes,Editable editable,int start) {
+    private void handleCharacter(int primaryCode,Editable editable,int start) {
 
         if (mKeyboardView.isShifted()) {
             primaryCode = Character.toUpperCase(primaryCode);
@@ -232,20 +211,18 @@ public class KeyboardActivity extends SensorManagerActivity {
         super.dispatchTouchEvent(event);
         EditText keyValue = (EditText) findViewById(R.id.editText_key);
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            downTime = SystemClock.elapsedRealtime();
-            beginningTimestamp = new Date();
+            downTime = System.currentTimeMillis();
         }
         if(event.getAction() == MotionEvent.ACTION_UP) {
 
-            //case MotionEvent.ACTION_UP:
+            //case MotionEvent.ACTION_UP
             //this is the time in milliseconds
-            long upTime = SystemClock.elapsedRealtime();
-            Date endingTimestamp = new Date();
+            long upTime = System.currentTimeMillis();
 
             if (keyValue.getText() != null
                     && !"".equals(keyValue.getText().toString())) {
 
-                recordTouchEvent(event,keyValue.getText().toString(),downTime,upTime,beginningTimestamp,endingTimestamp);
+                recordTouchEvent(event,keyValue.getText().toString(),downTime,upTime);
                 count++;
                 if (count == KEYSTROKE_COUNT) {
                     /*writeToFile(logValues.toString(), FILENAME);
@@ -254,7 +231,7 @@ public class KeyboardActivity extends SensorManagerActivity {
                             Toast.LENGTH_SHORT).show();*/
                     SaveCSVFile saveCSVFile = new SaveCSVFile();
                     saveCSVFile.execute(logValues.toString());
-                    logValues.setLength(0);;
+                    logValues.setLength(0);
                     count = 0;
                 }
 
@@ -282,4 +259,6 @@ public class KeyboardActivity extends SensorManagerActivity {
 
         return true;
     }
+
+
 }

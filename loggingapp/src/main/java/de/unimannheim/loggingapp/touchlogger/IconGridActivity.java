@@ -215,7 +215,7 @@ public class IconGridActivity extends SensorManagerActivity {
 
             if (key != 999) {
                 generatedKey = String.valueOf(key);
-                recordTouchEvent(event, null,0,0,null,null);
+                recordTouchEvent(event, null,0,0);
 
                 count++;
                 if (count == KEYSTROKE_COUNT) {

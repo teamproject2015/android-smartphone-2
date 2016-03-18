@@ -1,11 +1,13 @@
 package de.unimannheim.loggingapp.graphs;
 
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.androidplot.Plot;
 import com.androidplot.util.Redrawer;
@@ -17,25 +19,27 @@ import com.androidplot.xy.XYStepMode;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.List;
 
 import de.unimannheim.loggingapp.R;
 import de.unimannheim.loggingapp.sensors.AccelerometerResultReceiver;
-import de.unimannheim.loggingapp.sensors.SensorManagerActivity;
+import de.unimannheim.loggingapp.sensors.AccelerometerService;
+import de.unimannheim.loggingapp.utils.Constants;
 
 /**
  * Created by Saimadhav S on 20.11.2015.
  */
-public class AccelerometerActivity extends SensorManagerActivity {
+public class AccelerometerActivity extends AppCompatActivity {
 
     private static final int HISTORY_SIZE = 30;            // number of points to plot in history
 
     private XYPlot aprHistoryPlot = null;
+
+
+    private Redrawer redrawer;
     private SimpleXYSeries azimuthHistorySeries = null;
     private SimpleXYSeries pitchHistorySeries = null;
     private SimpleXYSeries rollHistorySeries = null;
-
-    private Redrawer redrawer;
+    private AccelerometerResultReceiver accelerometerResultReceiver;
 
     /**
      * Called when the activity is first created.
@@ -49,6 +53,13 @@ public class AccelerometerActivity extends SensorManagerActivity {
         SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometerResultReceiver = new AccelerometerResultReceiver(handler);
         accelerometerResultReceiver.setReceiver(new AcceleroReceiver());
+
+        Intent accIntent = new Intent(this, AccelerometerService.class);
+        accIntent.putExtra(Constants.EXTRA_RECEIVER, accelerometerResultReceiver);
+        startService(accIntent);
+
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
         // setup the APR History plot:
@@ -73,7 +84,7 @@ public class AccelerometerActivity extends SensorManagerActivity {
                 new LineAndPointFormatter(
                         Color.rgb(200, 100, 100), null, null, null));
         aprHistoryPlot.setDomainStepMode(XYStepMode.INCREMENT_BY_VAL);
-        aprHistoryPlot.setDomainStepValue(HISTORY_SIZE/10);
+        aprHistoryPlot.setDomainStepValue(HISTORY_SIZE / 10);
         aprHistoryPlot.setTicksPerRangeLabel(3);
         aprHistoryPlot.setDomainLabel("Sample Index");
         aprHistoryPlot.getDomainLabelWidget().pack();
@@ -93,11 +104,22 @@ public class AccelerometerActivity extends SensorManagerActivity {
     private class AcceleroReceiver implements
             AccelerometerResultReceiver.Receiver {
 
+
+        private float x, y, z;
+
         public AcceleroReceiver() {
+        }
+
+        private void sendToUI() {
+            runOnUiThread(new UpdateUI("x: " + x, "y: " + y, "z: " + z));
         }
 
         @Override
         public void newEvent(float x, float y, float z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            sendToUI();
 
             // get rid the oldest sample in history:
             if (rollHistorySeries.size() > HISTORY_SIZE) {
@@ -113,6 +135,34 @@ public class AccelerometerActivity extends SensorManagerActivity {
 
         @Override
         public void error(String error) {
+        }
+
+    }
+
+    private class UpdateUI implements Runnable {
+
+        private String x;
+        private String y;
+        private String z;
+
+        private TextView xTextView;
+        private TextView yTextView;
+        private TextView zTextView;
+
+        public UpdateUI(String x, String y, String z) {
+            this.xTextView = (TextView) findViewById(R.id.xAxis_textView);
+            this.x = x;
+            this.yTextView = (TextView) findViewById(R.id.yAxis_textView);
+            this.y = y;
+            this.zTextView = (TextView) findViewById(R.id.zAxis_textView);
+            this.z = z;
+        }
+
+        @Override
+        public void run() {
+            xTextView.setText(x);
+            yTextView.setText(y);
+            zTextView.setText(z);
         }
 
     }
