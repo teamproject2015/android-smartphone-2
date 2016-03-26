@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.androidplot.Plot;
@@ -21,14 +22,15 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import de.unimannheim.loggingapp.R;
-import de.unimannheim.loggingapp.sensors.AccelerometerResultReceiver;
 import de.unimannheim.loggingapp.sensors.AccelerometerService;
+import de.unimannheim.loggingapp.sensors.SensorManagerActivity;
+import de.unimannheim.loggingapp.sensors.SensorResultReceiver;
 import de.unimannheim.loggingapp.utils.Constants;
 
 /**
  * Created by Saimadhav S on 20.11.2015.
  */
-public class AccelerometerActivity extends AppCompatActivity {
+public class AccelerometerActivity extends SensorManagerActivity {
 
     private static final int HISTORY_SIZE = 30;            // number of points to plot in history
 
@@ -39,7 +41,6 @@ public class AccelerometerActivity extends AppCompatActivity {
     private SimpleXYSeries azimuthHistorySeries = null;
     private SimpleXYSeries pitchHistorySeries = null;
     private SimpleXYSeries rollHistorySeries = null;
-    private AccelerometerResultReceiver accelerometerResultReceiver;
 
     /**
      * Called when the activity is first created.
@@ -50,13 +51,9 @@ public class AccelerometerActivity extends AppCompatActivity {
         setContentView(R.layout.xy_chart);
 
         Handler handler = new Handler();
-        SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
-        accelerometerResultReceiver = new AccelerometerResultReceiver(handler);
+        //SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accelerometerResultReceiver = new SensorResultReceiver(handler);
         accelerometerResultReceiver.setReceiver(new AcceleroReceiver());
-
-        Intent accIntent = new Intent(this, AccelerometerService.class);
-        accIntent.putExtra(Constants.EXTRA_RECEIVER, accelerometerResultReceiver);
-        startService(accIntent);
 
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -102,7 +99,7 @@ public class AccelerometerActivity extends AppCompatActivity {
 
 
     private class AcceleroReceiver implements
-            AccelerometerResultReceiver.Receiver {
+            SensorResultReceiver.Receiver {
 
 
         private float x, y, z;
@@ -115,10 +112,12 @@ public class AccelerometerActivity extends AppCompatActivity {
         }
 
         @Override
-        public void newEvent(float x, float y, float z) {
+        public void newEvent(int sensorType,float x, float y, float z) {
             this.x = x;
             this.y = y;
             this.z = z;
+            Log.i("AcceReceiver", "sensorType=" + sensorType + ",x=" + x + ",y=" + y + ",z=" + z);
+
             sendToUI();
 
             // get rid the oldest sample in history:

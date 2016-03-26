@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import de.unimannheim.loggingapp.BaseActivity;
 import de.unimannheim.loggingapp.utils.Constants;
 import de.unimannheim.loggingapp.utils.Vector3;
 
@@ -47,10 +48,10 @@ public class OrientationService extends Service implements SensorEventListener {
 
 		sensorManager.registerListener(this,
 				sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
-				SensorManager.SENSOR_DELAY_UI);
+				BaseActivity.SENSOR_DELAY);
 		sensorManager.registerListener(this,
 				sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY),
-				SensorManager.SENSOR_DELAY_UI);
+				BaseActivity.SENSOR_DELAY);
 		super.onCreate();
 		gravity = new Vector3();
 	}
@@ -103,10 +104,11 @@ public class OrientationService extends Service implements SensorEventListener {
 			//Log.i("OrientationService", orientation[0]+","+orientation[1]+","+orientation[2]);
 			if (mReceiver != null) {
 				Bundle result = new Bundle();
-				result.putFloat(OrientationResultReceiver.EXTRA_X, orientation[0]);
-				result.putFloat(OrientationResultReceiver.EXTRA_Y, orientation[1]);
-				result.putFloat(OrientationResultReceiver.EXTRA_Z, orientation[2]);
-				mReceiver.send(OrientationResultReceiver.RESULTCODE_UPDATE,
+				result.putInt(SensorResultReceiver.SENSOR_TYPE, Sensor.TYPE_ORIENTATION);
+				result.putFloat(SensorResultReceiver.EXTRA_X, orientation[0]);
+				result.putFloat(SensorResultReceiver.EXTRA_Y, orientation[1]);
+				result.putFloat(SensorResultReceiver.EXTRA_Z, orientation[2]);
+				mReceiver.send(SensorResultReceiver.RESULTCODE_UPDATE,
 						result);
 			}
             /*orientation[0] = (float) (((results[0] * 180) / Math.PI) + 180); //azimuth

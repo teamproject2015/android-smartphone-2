@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.ResultReceiver;
 
+import de.unimannheim.loggingapp.BaseActivity;
 import de.unimannheim.loggingapp.utils.Constants;
 
 
@@ -35,7 +36,7 @@ public class GravityService extends Service implements
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY),
-                SensorManager.SENSOR_DELAY_UI);
+                BaseActivity.SENSOR_DELAY);
         super.onCreate();
     }
 
@@ -68,10 +69,11 @@ public class GravityService extends Service implements
 
             if (mReceiver != null) {
                 Bundle result = new Bundle();
-                result.putFloat(GravityResultReceiver.EXTRA_X, x);
-                result.putFloat(GravityResultReceiver.EXTRA_Y, y);
-                result.putFloat(GravityResultReceiver.EXTRA_Z, z);
-                mReceiver.send(GravityResultReceiver.RESULTCODE_UPDATE,
+                result.putInt(SensorResultReceiver.SENSOR_TYPE, event.sensor.getType());
+                result.putFloat(SensorResultReceiver.EXTRA_X, x);
+                result.putFloat(SensorResultReceiver.EXTRA_Y, y);
+                result.putFloat(SensorResultReceiver.EXTRA_Z, z);
+                mReceiver.send(SensorResultReceiver.RESULTCODE_UPDATE,
                         result);
             }
         }

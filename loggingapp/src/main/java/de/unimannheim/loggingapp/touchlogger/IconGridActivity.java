@@ -57,8 +57,6 @@ public class IconGridActivity extends SensorManagerActivity {
 
         loadImages();
 
-        getBundleData();
-
         handler = new UpdateCardsHandler();
         backImage = getResources().getDrawable(R.drawable.ic_memgame_back);
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.LinearLayout_iconMatch);
@@ -138,8 +136,8 @@ public class IconGridActivity extends SensorManagerActivity {
                 }
                 t = list.remove(t);
                 cards[i % COL_COUNT][i / COL_COUNT] = t % (size / 2);
-                Log.i("loadCards()", "card[" + (i % COL_COUNT) +
-                        "][" + (i / COL_COUNT) + "]=" + cards[i % COL_COUNT][i / COL_COUNT]);
+                /*Log.i("loadCards()", "card[" + (i % COL_COUNT) +
+                        "][" + (i / COL_COUNT) + "]=" + cards[i % COL_COUNT][i / COL_COUNT]);*/
             }
         } catch (Exception e) {
             Log.e("loadCards()", e + "");
@@ -215,11 +213,11 @@ public class IconGridActivity extends SensorManagerActivity {
 
             if (key != 999) {
                 generatedKey = String.valueOf(key);
-                recordTouchEvent(event, null,0,0);
+                recordTouchEvent(0,0, "",0,0);
 
                 count++;
                 if (count == KEYSTROKE_COUNT) {
-                    writeToFile(logValues.toString(), FILENAME);
+                    writeToFile(null,logValues.toString(), FILENAME);
                     Toast.makeText(getApplicationContext(),
                             "Key Stocks Saved",
                             Toast.LENGTH_SHORT).show();

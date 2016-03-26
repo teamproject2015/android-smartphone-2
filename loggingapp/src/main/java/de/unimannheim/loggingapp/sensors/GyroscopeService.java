@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.ResultReceiver;
 
+import de.unimannheim.loggingapp.BaseActivity;
 import de.unimannheim.loggingapp.utils.Constants;
 
 public class GyroscopeService extends Service implements
@@ -33,7 +34,7 @@ public class GyroscopeService extends Service implements
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sensorManager.registerListener(this,
 				sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),
-				SensorManager.SENSOR_DELAY_UI);
+				BaseActivity.SENSOR_DELAY);
 		super.onCreate();
 	}
 
@@ -72,10 +73,11 @@ public class GyroscopeService extends Service implements
 
 			if (mReceiver != null) {
 				Bundle result = new Bundle();
-				result.putFloat(GyroscopeResultReceiver.EXTRA_X, x);
-				result.putFloat(GyroscopeResultReceiver.EXTRA_Y, y);
-				result.putFloat(GyroscopeResultReceiver.EXTRA_Z, z);
-				mReceiver.send(GyroscopeResultReceiver.RESULTCODE_UPDATE,
+				result.putInt(SensorResultReceiver.SENSOR_TYPE, event.sensor.getType());
+				result.putFloat(SensorResultReceiver.EXTRA_X, x);
+				result.putFloat(SensorResultReceiver.EXTRA_Y, y);
+				result.putFloat(SensorResultReceiver.EXTRA_Z, z);
+				mReceiver.send(SensorResultReceiver.RESULTCODE_UPDATE,
 						result);
 			}
 		}

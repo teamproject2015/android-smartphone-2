@@ -5,6 +5,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,13 +17,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import de.unimannheim.loggingapp.R;
 import de.unimannheim.loggingapp.sensors.SensorManagerActivity;
+import de.unimannheim.loggingapp.session.SessionManager;
 
 
 public class KeyboardActivity extends SensorManagerActivity {
 
-    private static final String FILENAME = "KeyboardTouchLogger.csv";
+    private static final String FILENAME = "KeyboardTouchLogger";
 
     private static final String CLASS_NAME = KeyboardActivity.class.getName();
 
@@ -38,6 +43,9 @@ public class KeyboardActivity extends SensorManagerActivity {
     private KeyboardView mKeyboardView;
     private TextView typedKeyTextView;
     private long downTime;
+
+    private String csvFileName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +63,23 @@ public class KeyboardActivity extends SensorManagerActivity {
         int orientation = bundle.getInt("orientationPosition");
         typedKeyTextView = (TextView) findViewById(R.id.textView_typedKey);
 
-        getBundleData();
 
-        Log.d(CLASS_NAME,"orientation-->"+orientation);
+        File sdCard = Environment.getExternalStorageDirectory();
+        File directory = new File(sdCard.getAbsolutePath() + "/TouchLogger");
+
+        if(directory.exists()) {
+            String[] files = directory.list();
+            int count = 0;
+            for (int i=0; i<files.length; i++) {
+                if(files[i].contains(FILENAME)) {
+                    count++;
+                }
+            }
+            csvFileName = FILENAME +count;
+        }
+
+
+        Log.d(CLASS_NAME, "orientation-->" + orientation);
         if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -73,12 +95,12 @@ public class KeyboardActivity extends SensorManagerActivity {
         mSymbolsKeyboard = new Keyboard(this, R.xml.customkeyboard_symbols);
         mSymbolsShiftedKeyboard = new Keyboard(this, R.xml.customkeyboard_shift);
 
-        mKeyboardView = callCustomKeyboard(view,mQwertyKeyboard,R.id.keyboardview);
+        mKeyboardView = callCustomKeyboard(view, mQwertyKeyboard, R.id.keyboardview);
         // Install the key handler
         mKeyboardView.setOnKeyboardActionListener(new KeyboardActionListener() {
 
             @Override
-            public void onKey(int primaryCode, int[] keyCodes) {
+            public void onPress(int primaryCode) {
                 //Here check the primaryCode to see which key is pressed
                 //based on the android:codes property
                 View focusCurrent = KeyboardActivity.this.getWindow().getCurrentFocus();
@@ -109,14 +131,15 @@ public class KeyboardActivity extends SensorManagerActivity {
                 }
             }
 
+            @Override
+            public void onKey(int primaryCode, int[] keyCodes) {
+
+            }
+
         });
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
     }
-
-
-
 
 
     private void handleBackspace(Editable editable, int start) {
@@ -158,7 +181,7 @@ public class KeyboardActivity extends SensorManagerActivity {
         }
     }
 
-    private void handleCharacter(int primaryCode,Editable editable,int start) {
+    private void handleCharacter(int primaryCode, Editable editable, int start) {
 
         if (mKeyboardView.isShifted()) {
             primaryCode = Character.toUpperCase(primaryCode);
@@ -167,8 +190,6 @@ public class KeyboardActivity extends SensorManagerActivity {
         editable.insert(start, Character.toString((char) primaryCode));
         typedKeyTextView.setText(editable.toString());
     }
-
-
 
 
     @Override
@@ -181,12 +202,13 @@ public class KeyboardActivity extends SensorManagerActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-          return writeToFile(params[0], FILENAME);
+           // SessionManager session = new SessionManager(getApplicationContext());
+            return writeToFile(getBundleData(), params[0], csvFileName+".csv");
         }
 
         @Override
         protected void onPostExecute(Boolean isFinished) {
-            if(isFinished) {
+            if (isFinished) {
                 Toast.makeText(getApplicationContext(),
                         "Key Stocks Saved",
                         Toast.LENGTH_SHORT).show();
@@ -210,52 +232,58 @@ public class KeyboardActivity extends SensorManagerActivity {
     public boolean dispatchTouchEvent(MotionEvent event) {
         super.dispatchTouchEvent(event);
         EditText keyValue = (EditText) findViewById(R.id.editText_key);
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            downTime = System.currentTimeMillis();
+
+        if ("".equals(keyValue.getText().toString())) {
+            return true;
         }
-        if(event.getAction() == MotionEvent.ACTION_UP) {
+
+        //Log.i("Record", "Key=" + keyValue.getText().toString());
+        //
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            downTime = System.nanoTime();
+            int pointerIndex = event.getActionIndex();
+
+            //Log.i("TOUCHDOWN", "Key=" + keyValue.getText().toString() + ",coordinateX=" + event.getX(pointerIndex) + ",coordinateY=" + event.getY(pointerIndex));
+            recordTouchEvent(event.getX(pointerIndex), event.getY(pointerIndex), keyValue.getText().toString(), downTime, 0);
+        }
+        if (event.getAction() == MotionEvent.ACTION_UP) {
 
             //case MotionEvent.ACTION_UP
             //this is the time in milliseconds
-            long upTime = System.currentTimeMillis();
+            long upTime = System.nanoTime();
 
-            if (keyValue.getText() != null
-                    && !"".equals(keyValue.getText().toString())) {
+            recordTouchEvent(0, 0, "", downTime, upTime);
 
-                recordTouchEvent(event,keyValue.getText().toString(),downTime,upTime);
-                count++;
-                if (count == KEYSTROKE_COUNT) {
+            count++;
+            if (count == KEYSTROKE_COUNT) {
                     /*writeToFile(logValues.toString(), FILENAME);
                     Toast.makeText(getApplicationContext(),
                             "Key Stocks Saved",
                             Toast.LENGTH_SHORT).show();*/
-                    SaveCSVFile saveCSVFile = new SaveCSVFile();
-                    saveCSVFile.execute(logValues.toString());
-                    logValues.setLength(0);
-                    count = 0;
+                SaveCSVFile saveCSVFile = new SaveCSVFile();
+                saveCSVFile.execute(logValues.toString());
+                logValues.setLength(0);
+                count = 0;
+            }
+
+            //final EditText textMessage = (EditText) findViewById(R.id.editText_key);
+            //Log.i(CLASS_NAME, "generatedKey value = " + generatedKey);
+            TextWatcher tw = new TextWatcher() {
+                public void afterTextChanged(Editable s) {
+                    generateRandomKey(ALPHANUMERIC_RANDOMLETTERS);
                 }
 
-                //final EditText textMessage = (EditText) findViewById(R.id.editText_key);
-                //Log.i(CLASS_NAME, "generatedKey value = " + generatedKey);
-                TextWatcher tw = new TextWatcher() {
-                    public void afterTextChanged(Editable s) {
-                        generateRandomKey(ALPHANUMERIC_RANDOMLETTERS);
-                    }
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+            };
+            keyValue.addTextChangedListener(tw);
+            keyValue.setText("");
+            keyValue.removeTextChangedListener(tw);
 
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    }
-                };
-                keyValue.addTextChangedListener(tw);
-                keyValue.setText("");
-                keyValue.removeTextChangedListener(tw);
-            }
         }
-
-
-
 
         return true;
     }

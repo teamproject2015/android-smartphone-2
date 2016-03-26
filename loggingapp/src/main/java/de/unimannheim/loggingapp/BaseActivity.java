@@ -2,10 +2,12 @@ package de.unimannheim.loggingapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.hardware.SensorManager;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,6 +37,8 @@ public class BaseActivity extends AppCompatActivity {
     private static final String CLASS_NAME = "BaseActivity";
 
     protected static final int KEYSTROKE_COUNT = 40;
+
+    public static final int SENSOR_DELAY = SensorManager.SENSOR_DELAY_GAME;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,7 +86,7 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param data data which contains the Logger values
      */
-    protected boolean writeToFile(String data, String fileName) {
+    protected boolean writeToFile(String userDetails,String data, String fileName) {
         //Log.i(CLASS_NAME,"data--------->"+data);
         boolean isNewFile = false;
         boolean isFinished = false;
@@ -106,7 +110,7 @@ public class BaseActivity extends AppCompatActivity {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fos);
 
             if(isNewFile) {
-                outputStreamWriter.write(getString(R.string.file_headerfields)+"\r\n"+data);
+                outputStreamWriter.write(userDetails+ getString(R.string.file_headerfields)+"\r\n"+data);
             } else {
                 outputStreamWriter.write(data);
             }

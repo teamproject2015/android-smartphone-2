@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.ResultReceiver;
 
+import de.unimannheim.loggingapp.BaseActivity;
 import de.unimannheim.loggingapp.utils.Constants;
 
 
@@ -35,7 +36,7 @@ public class LightService extends Service implements
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
-                SensorManager.SENSOR_DELAY_UI);
+                BaseActivity.SENSOR_DELAY);
         super.onCreate();
     }
 
