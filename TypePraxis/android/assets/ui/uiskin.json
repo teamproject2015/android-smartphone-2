@@ -1,0 +1,106 @@
+{
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "default-font": {
+      "file" : "default.fnt"
+    },
+    "choko-font": {
+      "file" : "choko.fnt"
+    },
+    "choko-font40": {
+      "file" : "choko_40.fnt"
+    },
+    "calibri-font":{
+      "file" : "calibri.fnt"
+    }
+  },
+  "com.badlogic.gdx.graphics.Color": {
+    "green": {
+      "a": 1,
+      "b": 0,
+      "g": 1,
+      "r": 0
+    },
+    "white": {
+      "a": 1,
+      "b": 1,
+      "g": 1,
+      "r": 1
+    },
+    "red": {
+      "a": 1,
+      "b": 0,
+      "g": 0,
+      "r": 1
+    },
+    "black": {
+      "a": 1,
+      "b": 0,
+      "g": 0,
+      "r": 0
+    },
+    "scoreColor": {
+      "r": 68,
+      "g": 207,
+      "b": 203,
+      "a": 1
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+    "default": {
+      "down": "default-round-down",
+      "up": "default-round"
+    },
+    "start": {
+      "down": "default-round-down",
+      "up": "default-round",
+      "pressedOffsetX" : 1,
+      "pressedOffsetY" : 1
+    },
+    "exit": {
+      "down": "default-round-down",
+      "up": "default-round",
+      "pressedOffsetX" : 1,
+      "pressedOffsetY" : 1
+    },
+    "toggle": {
+      "down": "default-round-down",
+      "up": "default-round",
+      "checked": "default-round-down"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+    "default": {
+      "down": "default-round-down",
+      "up": "default-round",
+      "font": "calibri-font",
+      "fontColor": "white"
+    },
+    "toggle": {
+      "down": "default-round-down",
+      "up": "default-round",
+      "checked": "default-round-down",
+      "font": "calibri-font",
+      "fontColor": "white",
+      "downFontColor": "red"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
+    "default": {
+      "selection": "selection",
+      "background": "textfield",
+      "font": "calibri-font",
+      "fontColor": "black",
+      "cursor": "cursor"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+    "default": {
+      "font": "choko-font",
+      "fontColor": "white"
+    },
+    "scoreLabel": {
+      "font": "choko-font40",
+      "fontColor": "scoreColor"
+    }
+  }
+}

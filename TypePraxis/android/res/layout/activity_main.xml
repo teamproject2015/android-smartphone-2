@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/fullscreen_content_controls"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+    <TextView android:id="@+id/title_content"
+        android:layout_width="match_parent"
+        android:layout_height="107dp"
+        android:keepScreenOn="true"
+        android:textColor="@color/primary_light"
+        android:textStyle="bold"
+        android:textSize="50sp"
+        android:gravity="center"
+        android:text="@string/app_title" />
+
+
+    <Button android:id="@+id/start_button" style="?metaButtonBarButtonStyle"
+        android:layout_width="204dp"
+        android:layout_height="50dp"
+        android:text="@string/start_button"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@color/accent"
+        android:layout_gravity="center"
+        android:layout_above="@+id/exit_button"
+        android:layout_alignLeft="@+id/exit_button"
+        android:layout_alignStart="@+id/exit_button"
+        android:layout_marginBottom="30dp" />
+
+    <Button android:id="@+id/exit_button" style="?metaButtonBarButtonStyle"
+        android:layout_width="204dp"
+        android:layout_height="50dp"
+        android:text="@string/exit_button"
+        android:textStyle="bold"
+        android:background="@color/accent"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="200dp" />
+
+</RelativeLayout>
