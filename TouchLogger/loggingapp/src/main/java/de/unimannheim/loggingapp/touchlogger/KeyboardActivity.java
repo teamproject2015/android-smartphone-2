@@ -67,16 +67,18 @@ public class KeyboardActivity extends SensorManagerActivity {
         File sdCard = Environment.getExternalStorageDirectory();
         File directory = new File(sdCard.getAbsolutePath() + "/TouchLogger");
 
+        int count = 0;
         if(directory.exists()) {
             String[] files = directory.list();
-            int count = 0;
-            for (int i=0; i<files.length; i++) {
-                if(files[i].contains(FILENAME)) {
-                    count++;
+            if (files != null) {
+                for (String file : directory.list()) {
+                    if (file.contains(FILENAME)) {
+                        count++;
+                    }
                 }
             }
-            csvFileName = FILENAME +count;
         }
+        csvFileName = FILENAME + count;
 
 
         Log.d(CLASS_NAME, "orientation-->" + orientation);
