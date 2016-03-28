@@ -1,8 +1,3 @@
-# android-smartphone-2
-Project Coordinator: Saimadhav
+Project : TouchLogger
 
-Environment: Android 4
-
-Device Type: Smartphone
-
-Device: Samsung Galaxy S3
+This app is used to log the Keyboard activities based on the sensors available within the phone.
