@@ -2,6 +2,7 @@ package de.unimannheim.loggingapp.pojo;
 
 /**
  * Created by suryadevara on 17-06-2015.
+ * NavigationList is POJO class with setter and getter methods which is used in navigation menu
  */
 public class NavigationList {
 

@@ -1,5 +1,13 @@
 package de.unimannheim.loggingapp.touchlogger;
 
+/**
+ * @author Saimadhav S
+ *         Created on 15.06.2015
+ *         <p/>
+ *         KeyboardActivity Class is used to record the Logger activities to train
+ *         the keystoke for Keyboard
+ */
+
 import android.content.pm.ActivityInfo;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -18,19 +26,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileOutputStream;
 
 import de.unimannheim.loggingapp.R;
 import de.unimannheim.loggingapp.sensors.SensorManagerActivity;
-import de.unimannheim.loggingapp.session.SessionManager;
+import de.unimannheim.loggingapp.utils.GenerateFeaturesFile;
 
 
 public class KeyboardActivity extends SensorManagerActivity {
 
     private static final String FILENAME = "KeyboardTouchLogger";
-
     private static final String CLASS_NAME = KeyboardActivity.class.getName();
 
+    //alphabets for random key generator
     private static String ALPHANUMERIC_RANDOMLETTERS = "abcdefghijklmnopqrstuvwxyz";
 
     private int count;
@@ -44,14 +51,20 @@ public class KeyboardActivity extends SensorManagerActivity {
     private TextView typedKeyTextView;
     private long downTime;
 
-    private String csvFileName;
 
 
+    /**
+     * when the activiy is called then onCreate method is called first
+     *
+     * @param savedInstanceState bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_touchlogger_keyboard);
         generateRandomKey(ALPHANUMERIC_RANDOMLETTERS);
+
+        //calls the actionbar for UI
         callToolBar();
 
         ActionBar supportActionBar = getSupportActionBar();
@@ -59,16 +72,18 @@ public class KeyboardActivity extends SensorManagerActivity {
             supportActionBar.setHomeButtonEnabled(true);
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
+        //get the bundle data to check for orientation position
         Bundle bundle = getIntent().getExtras();
         int orientation = bundle.getInt("orientationPosition");
         typedKeyTextView = (TextView) findViewById(R.id.textView_typedKey);
 
 
+        //use different filename for csv file generation
         File sdCard = Environment.getExternalStorageDirectory();
         File directory = new File(sdCard.getAbsolutePath() + "/TouchLogger");
 
         int count = 0;
-        if(directory.exists()) {
+        if (directory.exists()) {
             String[] files = directory.list();
             if (files != null) {
                 for (String file : directory.list()) {
@@ -80,7 +95,7 @@ public class KeyboardActivity extends SensorManagerActivity {
         }
         csvFileName = FILENAME + count;
 
-
+        //sets the orientation
         Log.d(CLASS_NAME, "orientation-->" + orientation);
         if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -96,8 +111,8 @@ public class KeyboardActivity extends SensorManagerActivity {
         mQwertyKeyboard = new Keyboard(this, R.xml.customkeyboard);
         mSymbolsKeyboard = new Keyboard(this, R.xml.customkeyboard_symbols);
         mSymbolsShiftedKeyboard = new Keyboard(this, R.xml.customkeyboard_shift);
-
         mKeyboardView = callCustomKeyboard(view, mQwertyKeyboard, R.id.keyboardview);
+
         // Install the key handler
         mKeyboardView.setOnKeyboardActionListener(new KeyboardActionListener() {
 
@@ -113,9 +128,9 @@ public class KeyboardActivity extends SensorManagerActivity {
 
 
                 if (primaryCode == Keyboard.KEYCODE_DELETE) {
-                    handleBackspace(editable, start);
+                    handleBackspace(editable, start); // handle the backspace
                 } else if (primaryCode == Keyboard.KEYCODE_SHIFT) {
-                    handleShift();
+                    handleShift(); // handle shift
                 } else if (primaryCode == Keyboard.KEYCODE_MODE_CHANGE
                         && mKeyboardView != null) {
                     Keyboard current = mKeyboardView.getKeyboard();
@@ -129,21 +144,20 @@ public class KeyboardActivity extends SensorManagerActivity {
                         current.setShifted(false);
                     }
                 } else {
-                    handleCharacter(primaryCode, editable, start);
+                    handleCharacter(primaryCode, editable, start); // handle the character
                 }
             }
 
             @Override
             public void onKey(int primaryCode, int[] keyCodes) {
-
             }
-
         });
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
 
+    // handleBackspace for the custom keyboard
     private void handleBackspace(Editable editable, int start) {
         if (editable == null)
             return;
@@ -153,6 +167,7 @@ public class KeyboardActivity extends SensorManagerActivity {
         }
     }
 
+    // handleShift for the custom keyboard
     private void handleShift() {
         if (mKeyboardView == null) {
             return;
@@ -173,6 +188,7 @@ public class KeyboardActivity extends SensorManagerActivity {
         }
     }
 
+    //checkToggleCapsLock method is for handling the capslock in custom keyboard
     private void checkToggleCapsLock() {
         long now = System.currentTimeMillis();
         if (mLastShiftTime + 800 > now) {
@@ -183,6 +199,7 @@ public class KeyboardActivity extends SensorManagerActivity {
         }
     }
 
+    // handleCharacter for the custom keyboard
     private void handleCharacter(int primaryCode, Editable editable, int start) {
 
         if (mKeyboardView.isShifted()) {
@@ -194,36 +211,14 @@ public class KeyboardActivity extends SensorManagerActivity {
     }
 
 
+    // touchevent is handle in this method
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return true;
     }
 
-
-    private class SaveCSVFile extends AsyncTask<String, Void, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-           // SessionManager session = new SessionManager(getApplicationContext());
-            return writeToFile(getBundleData(), params[0], csvFileName+".csv");
-        }
-
-        @Override
-        protected void onPostExecute(Boolean isFinished) {
-            if (isFinished) {
-                Toast.makeText(getApplicationContext(),
-                        "Key Stocks Saved",
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Key Stocks not saved",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
     /**
-     * When the User press/ touch the screen the event from OnTouchevent will be
+     * When the User press/ touch the screen the event from dispatchTouchEvent will be
      * triggering the onTouch method, the method will save the x,y coordinates
      * and accelerometer and orientation coordinates
      *
@@ -239,37 +234,29 @@ public class KeyboardActivity extends SensorManagerActivity {
             return true;
         }
 
-        //Log.i("Record", "Key=" + keyValue.getText().toString());
-        //
+        //Log.d("TOUCHDOWN", "Key=" + keyValue.getText().toString() + ",coordinateX=" + event.getX(pointerIndex) + ",coordinateY=" + event.getY(pointerIndex));
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             downTime = System.nanoTime();
             int pointerIndex = event.getActionIndex();
-
-            //Log.i("TOUCHDOWN", "Key=" + keyValue.getText().toString() + ",coordinateX=" + event.getX(pointerIndex) + ",coordinateY=" + event.getY(pointerIndex));
             recordTouchEvent(event.getX(pointerIndex), event.getY(pointerIndex), keyValue.getText().toString(), downTime, 0);
         }
         if (event.getAction() == MotionEvent.ACTION_UP) {
 
             //case MotionEvent.ACTION_UP
-            //this is the time in milliseconds
+            //this is the time in nanoseconds
             long upTime = System.nanoTime();
-
             recordTouchEvent(0, 0, "", downTime, upTime);
 
             count++;
             if (count == KEYSTROKE_COUNT) {
-                    /*writeToFile(logValues.toString(), FILENAME);
-                    Toast.makeText(getApplicationContext(),
-                            "Key Stocks Saved",
-                            Toast.LENGTH_SHORT).show();*/
                 SaveCSVFile saveCSVFile = new SaveCSVFile();
                 saveCSVFile.execute(logValues.toString());
                 logValues.setLength(0);
                 count = 0;
             }
 
-            //final EditText textMessage = (EditText) findViewById(R.id.editText_key);
-            //Log.i(CLASS_NAME, "generatedKey value = " + generatedKey);
+            //Log.d(CLASS_NAME, "generatedKey value = " + generatedKey);
+            //after the key pressed new character is generated on the screen
             TextWatcher tw = new TextWatcher() {
                 public void afterTextChanged(Editable s) {
                     generateRandomKey(ALPHANUMERIC_RANDOMLETTERS);
@@ -288,6 +275,30 @@ public class KeyboardActivity extends SensorManagerActivity {
         }
 
         return true;
+    }
+
+    /**
+     * SaveCSVFile class runs in the background for saving the CSV file
+     */
+    private class SaveCSVFile extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            return writeToFile(getBundleData(), params[0], csvFileName + ".csv");
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isFinished) {
+            if (isFinished) {
+                Toast.makeText(getApplicationContext(),
+                        "Key Stocks Saved",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Key Stocks not saved",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 

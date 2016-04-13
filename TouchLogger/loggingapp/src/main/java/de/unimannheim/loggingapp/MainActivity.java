@@ -1,6 +1,12 @@
 package de.unimannheim.loggingapp;
 
-import android.content.Intent;
+/**
+ * @author Saimadhav S
+ * Created on 15.06.2015
+ *
+ * When Application is called it first calls the MainActivity as default launching activiy
+ */
+
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;

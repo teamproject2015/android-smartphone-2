@@ -16,7 +16,7 @@ android {
     }
     defaultConfig {
         applicationId "de.unimannheim.game"
-        minSdkVersion 8
+        minSdkVersion 11
         targetSdkVersion 23
     }
 }
@@ -65,7 +65,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'de.unimannheim.game/de.unimannheim.game.MainActivity'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'de.unimannheim.game/de.unimannheim.activities.MainActivity'
 }
 // sets up the Android Eclipse project, using the old Ant based build.
 eclipse {

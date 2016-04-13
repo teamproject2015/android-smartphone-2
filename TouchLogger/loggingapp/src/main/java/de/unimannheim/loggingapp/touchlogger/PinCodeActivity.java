@@ -1,11 +1,18 @@
 package de.unimannheim.loggingapp.touchlogger;
 
+/**
+ * @author Saimadhav S
+ * Created on 15.06.2015
+ * <p/>
+ * KeyboardActivity Class is used to record the Logger activities to train
+ * the keystoke for Keyboard
+ */
+
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,7 +36,6 @@ public class PinCodeActivity extends SensorManagerActivity {
     private static String NUMERIC_RANDOMLETTERS = "0123456789";
     private int count;
     private long downTime;
-    private String csvFileName;
     private TextView typedKeyTextView;
 
     @Override
@@ -48,15 +54,15 @@ public class PinCodeActivity extends SensorManagerActivity {
         File sdCard = Environment.getExternalStorageDirectory();
         File directory = new File(sdCard.getAbsolutePath() + "/TouchLogger");
 
-        if(directory.exists()) {
+        if (directory.exists()) {
             String[] files = directory.list();
             int count = 0;
-            for (int i=0; i<files.length; i++) {
-                if(files[i].contains(FILENAME)) {
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].contains(FILENAME)) {
                     count++;
                 }
             }
-            csvFileName = FILENAME +count;
+            csvFileName = FILENAME + count;
         }
 
         View view = this.findViewById(android.R.id.content);
@@ -80,9 +86,9 @@ public class PinCodeActivity extends SensorManagerActivity {
                 if (primaryCode == Keyboard.KEYCODE_DELETE) {
                     if (editable != null && start > 0)
                         editable.delete(start - 1, start);
-                       typedKeyTextView.setText(editable.toString());
+                    typedKeyTextView.setText(editable.toString());
                 } else {
-                    //Log.i(CLASS_NAME, "You just pressed " + primaryCode + " button");
+                    //Log.d(CLASS_NAME, "You just pressed " + primaryCode + " button");
                     editable.insert(start, Character.toString((char) primaryCode));
                     typedKeyTextView.setText(editable.toString());
                 }
@@ -122,13 +128,12 @@ public class PinCodeActivity extends SensorManagerActivity {
             return true;
         }
 
-        //Log.i("Record", "Key=" + keyValue.getText().toString());
-        //
+        //Log.d("Record", "Key=" + keyValue.getText().toString());
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             downTime = System.nanoTime();
             int pointerIndex = event.getActionIndex();
 
-            //Log.i("TOUCHDOWN", "Key=" + keyValue.getText().toString() + ",coordinateX=" + event.getX(pointerIndex) + ",coordinateY=" + event.getY(pointerIndex));
+            //Log.d("TOUCHDOWN", "Key=" + keyValue.getText().toString() + ",coordinateX=" + event.getX(pointerIndex) + ",coordinateY=" + event.getY(pointerIndex));
             recordTouchEvent(event.getX(pointerIndex), event.getY(pointerIndex), keyValue.getText().toString(), downTime, 0);
         }
 
@@ -143,18 +148,13 @@ public class PinCodeActivity extends SensorManagerActivity {
 
             count++;
             if (count == KEYSTROKE_COUNT) {
-                    /*writeToFile(logValues.toString(), FILENAME);
-                    Toast.makeText(getApplicationContext(),
-                            "Key Stocks Saved",
-                            Toast.LENGTH_SHORT).show();*/
                 SavePinCodeCSVFile saveCSVFile = new SavePinCodeCSVFile();
                 saveCSVFile.execute(logValues.toString());
                 logValues.setLength(0);
                 count = 0;
             }
 
-            //final EditText textMessage = (EditText) findViewById(R.id.editText_key);
-            //Log.i(CLASS_NAME, "generatedKey value = " + generatedKey);
+            //Log.d(CLASS_NAME, "generatedKey value = " + generatedKey);
             TextWatcher tw = new TextWatcher() {
                 public void afterTextChanged(Editable s) {
                     generateRandomKey(NUMERIC_RANDOMLETTERS);

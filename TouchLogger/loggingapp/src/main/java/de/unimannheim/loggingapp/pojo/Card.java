@@ -1,10 +1,11 @@
 package de.unimannheim.loggingapp.pojo;
 
-import android.widget.Button;
 import android.widget.ImageButton;
 
 /**
  * Created by suryadevara on 22-06-2015.
+ *
+ * Card is POJO class with different variable assigned for Icongrid game
  */
 public class Card {
 

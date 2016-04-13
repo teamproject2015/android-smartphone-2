@@ -23,6 +23,7 @@ public class MagnitudeService extends Service implements
 
     private ResultReceiver mReceiver;
     private SensorManager sensorManager;
+    private float[] values;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -61,18 +62,16 @@ public class MagnitudeService extends Service implements
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-            float[] values = event.values;
-            // Movement
-            float x = values[0];
-            float y = values[1];
-            float z = values[2];
+            values = event.values;
+
 
             if (mReceiver != null) {
                 Bundle result = new Bundle();
                 result.putInt(SensorResultReceiver.SENSOR_TYPE, event.sensor.getType());
-                result.putFloat(SensorResultReceiver.EXTRA_X, x);
-                result.putFloat(SensorResultReceiver.EXTRA_Y, y);
-                result.putFloat(SensorResultReceiver.EXTRA_Z, z);
+                result.putLong(SensorResultReceiver.SENSOR_TIMESTAMP, event.timestamp);
+                result.putFloat(SensorResultReceiver.EXTRA_X, values[0]);
+                result.putFloat(SensorResultReceiver.EXTRA_Y, values[1]);
+                result.putFloat(SensorResultReceiver.EXTRA_Z, values[2]);
                 mReceiver.send(SensorResultReceiver.RESULTCODE_UPDATE,
                         result);
             }

@@ -1,5 +1,11 @@
 package de.unimannheim.loggingapp.sensors;
 
+/**
+ * Created by Saimadhav S on 06.12.2015.
+ *
+ * GyroscopeService which extends service class
+ */
+
 import android.app.Service;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -18,16 +24,31 @@ public class GyroscopeService extends Service implements
 
 	private ResultReceiver mReceiver;
 	private SensorManager sensorManager;
+	private float[] values;
 
+    /**
+     * The system calls this method when another component, such as an activity,
+     * requests that the service be started, by calling startService().
+     * once this method is implemented, we need to stop the service
+     * when its work is done, by calling stopSelf() or stopService() methods.
+     *
+     * @param intent intent
+     * @param flags flags
+     * @param startId startid
+     * @return integer value
+     */
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-
 		mReceiver = intent.getParcelableExtra(Constants.EXTRA_RECEIVER);
-
 		return START_STICKY;
-
 	}
 
+    /**
+     * The system calls this method when the service is first
+     * created using onStartCommand() or onBind().
+     * This call is required to perform one-time set-up.
+     * Activating the sensormanager for Gyroscope
+     */
 	@Override
 	public void onCreate() {
 		// Setup and start collecting
@@ -38,6 +59,11 @@ public class GyroscopeService extends Service implements
 		super.onCreate();
 	}
 
+    /**
+     * The system calls this method when the service is no longer used and is being destroyed.
+     * unregister all the sensorManager listeners and clean up
+     * if any resources available such as threads, registered listeners, receivers, etc.
+     */
 	@Override
 	public void onDestroy() {
 		// Stop collecting and tear down
@@ -45,6 +71,9 @@ public class GyroscopeService extends Service implements
 		super.onDestroy();
 	}
 
+    /**
+     * The system calls this method when another component wants to bind with the service by calling bindService().
+     */
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -53,30 +82,25 @@ public class GyroscopeService extends Service implements
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-			// send something?
-		}
 	}
 
+    /**
+     * onsensor change the method is called and binding is performed in mReceiver.send
+     *
+     * @param event sensor event
+     */
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-			float[] values = event.values;
-			// Movement
-			float x = values[0];
-			float y = values[1];
-			float z = values[2];
-
-//			Log.d(TAG, "x: " + x);
-//			Log.d(TAG, "y: " + y);
-//			Log.d(TAG, "z: " + z);
+			values = event.values;
 
 			if (mReceiver != null) {
 				Bundle result = new Bundle();
 				result.putInt(SensorResultReceiver.SENSOR_TYPE, event.sensor.getType());
-				result.putFloat(SensorResultReceiver.EXTRA_X, x);
-				result.putFloat(SensorResultReceiver.EXTRA_Y, y);
-				result.putFloat(SensorResultReceiver.EXTRA_Z, z);
+				result.putLong(SensorResultReceiver.SENSOR_TIMESTAMP, event.timestamp);
+				result.putFloat(SensorResultReceiver.EXTRA_X, values[0]);
+				result.putFloat(SensorResultReceiver.EXTRA_Y, values[1]);
+				result.putFloat(SensorResultReceiver.EXTRA_Z, values[2]);
 				mReceiver.send(SensorResultReceiver.RESULTCODE_UPDATE,
 						result);
 			}

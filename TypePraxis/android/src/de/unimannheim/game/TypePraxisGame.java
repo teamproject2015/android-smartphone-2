@@ -12,7 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
-import java.io.Serializable;
+import de.unimannheim.interfaces.SizeChangeListener;
+import de.unimannheim.interfaces.View;
 
 /**
  * Created by Saimadhav S on 23.03.2016.

@@ -1,5 +1,7 @@
 package de.unimannheim.game;
 
+import de.unimannheim.interfaces.View;
+
 /**
  * Created by Saimadhav S on 25.03.2016.
  */

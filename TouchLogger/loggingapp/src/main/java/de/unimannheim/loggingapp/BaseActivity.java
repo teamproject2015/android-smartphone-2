@@ -38,7 +38,11 @@ public class BaseActivity extends AppCompatActivity {
 
     protected static final int KEYSTROKE_COUNT = 40;
 
-    public static final int SENSOR_DELAY = SensorManager.SENSOR_DELAY_GAME;
+    // SENSOR_DELAY_NORMAL (200,000 microsecond delay)
+    // SENSOR_DELAY_GAME (20,000 microsecond delay)
+    // SENSOR_DELAY_UI (60,000 microsecond delay)
+    // SENSOR_DELAY_FASTEST (0 microsecond delay)
+    public static final int SENSOR_DELAY = 10000;//SensorManager.SENSOR_DELAY_GAME;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,23 +65,9 @@ public class BaseActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
-            //Intent i = new Intent(getApplicationContext(),SettingsActivity.class);
-            //startActivity(i);
-            //setContentView(R.layout.avtivity_next);
-            Toast.makeText(getApplicationContext(), "under progress, working on it", Toast.LENGTH_LONG).show();
-            return true;
-        } else if (id == R.id.action_touchlogger) {
-            Intent i = new Intent(getApplicationContext(),TouchloggerActivity.class);
-            startActivity(i);
-            //setContentView(R.layout.activity_touchlogger);
-        }*/
-
         if (id == R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
         }
-
         return super.onOptionsItemSelected(item);
     }
 

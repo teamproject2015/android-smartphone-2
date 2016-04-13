@@ -14,8 +14,9 @@ import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+
+import java.util.Vector;
 
 /**
  * Created by Saimadhav S on 23.03.2016.
@@ -24,26 +25,21 @@ public class GameScreen implements Screen {
 
     public static final int CIRCLE_WIDTH = 200;
     public static final int CIRCLE_HEIGHT = 200;
-
-    private TypePraxisGame game;
-
     protected OrthographicCamera camera;
+    int circleCount;
+    ImmediateModeRenderer renderer;
+    float thickness = 25f;
+    private TypePraxisGame game;
     private Texture wordImage;
     private Sound dropSound;
     private Music gameMusic;
-    private Array<Circle> wordCircles,removeWordCircles;
+    private Vector<Circle> wordCircles;
     private long lastDropTime;
     private Pixmap pixmap;
     private Texture texture, progressTexture;
-    int circleCount;
-    private Array<String> randomText,removeRandomText;
-
-    ImmediateModeRenderer renderer;
-
+    private Vector<String> randomText;
     private float[] positions;
     private float[] values;
-
-    float thickness = 25f;
 
     //Random random = new Random();
 
@@ -54,6 +50,36 @@ public class GameScreen implements Screen {
      */
     public GameScreen(final TypePraxisGame typePraxisGame) {
         this.game = typePraxisGame;
+    }
+
+    private static String randomText() {
+        String text = TestText.THREE_CHARS[(MathUtils.random(0, TestText.THREE_CHARS.length))-1];
+        //random.nextInt(TestText.TEST_TEXT.length);
+        //Gdx.app.log("INFO", "Random text " + text);
+        if (!"".equals(text)) {
+            return text;
+        }
+        return randomText();
+    }
+
+    /**
+     * create a new Array based on the existing count of words available in wordcircle
+     *
+     * @param oldArray
+     * @param wordCircles
+     * @return
+     */
+    private static float[] createNewArray(float[] oldArray, int size) {
+        float[] newArray = new float[size];
+
+        System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
+
+        for (int i = 0; i < newArray.length; i++) {
+            if (newArray[i] == 0) {
+                newArray[i] = 1f;
+            }
+        }
+        return newArray;
     }
 
     /**
@@ -68,7 +94,6 @@ public class GameScreen implements Screen {
 
         // super.create();
         wordImage = new Texture(Gdx.files.internal("images/circle.png"));
-        // bucketImage = new Texture(Gdx.files.internal("bucket.png"));
 
         // load the drop sound effect and the rain background "music"
         dropSound = Gdx.audio.newSound(Gdx.files.internal("music/drop.wav"));
@@ -78,11 +103,8 @@ public class GameScreen implements Screen {
         gameMusic.setLooping(true);
         gameMusic.setVolume(0.5f);
 
-        // create the raindrops array and spawn the first raindrop
-        wordCircles = new Array<>();
-        removeWordCircles = new Array<>();
-        randomText = new Array<>();
-        removeRandomText = new Array<>();
+        wordCircles = new Vector<>();
+        randomText = new Vector<>();
 
         positions = new float[1];
         values = new float[1];
@@ -94,7 +116,7 @@ public class GameScreen implements Screen {
         pixmap.drawCircle(pixmap.getWidth() / 2, pixmap.getHeight() / 2, pixmap.getHeight() / 2 - 1);
         texture = new Texture(pixmap);
 
-        spawnRaindrop();
+        spawnWordCircle();
 
         progressTexture = new Texture(Gdx.files.internal("images/progress.png"));
         progressTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -115,9 +137,7 @@ public class GameScreen implements Screen {
                     int j = 0;
                     for (String randText : randomText) {
                         if (randText.equalsIgnoreCase(text)) {
-                            removeWordCircles.add(wordCircles.get(j));
-                            removeRandomText.add(randomText.get(j));
-                            removeWords();
+                            removeWords(j);
                             game.score++;
                             dropSound.play();
                             isKeyMatched = true;
@@ -139,79 +159,59 @@ public class GameScreen implements Screen {
 
     }
 
-    private void spawnRaindrop() {
+    private void spawnWordCircle() {
 
         // move the raindrops, remove any that are beneath the bottom edge of
         // the screen or that hit the bucket. In the later case we play back
         // a sound effect as well.
-        Circle wordCircle = myCircleOverlapCheckMethod();
+        Circle wordCircle = myCircleOverlapCheckMethod(true, -1);
         //MathUtils.random(0,TestText.TEST_TEXT.length);
         randomText.add(randomText());
         wordCircles.add(wordCircle);
-
-        positions = createNewArray(positions, wordCircles);
-        values = createNewArray(values, wordCircles);
+        int size = wordCircles.size();
+        positions = createNewArray(positions, size);
+        values = createNewArray(values, size);
 
         lastDropTime = TimeUtils.nanoTime();
         circleCount++;
     }
 
-    private static String randomText(){
-        String text = TestText.THREE_CHARS[MathUtils.random(0, TestText.THREE_CHARS.length)];
-        //random.nextInt(TestText.TEST_TEXT.length);
-        //Gdx.app.log("INFO", "Random text " + text);
-        if (!"".equals(text)){
-            return text;
+    private Circle myCircleOverlapCheckMethod(boolean isNewCircle, int position) {
+        Circle wCircle = null;
+        if (isNewCircle) {
+            wCircle = new Circle();
+        } else {
+            wCircle = wordCircles.get(position);
         }
-        return randomText();
-    }
 
-    /**
-     * create a new Array based on the existing count of words available in wordcircle
-     *
-     * @param oldArray
-     * @param wordCircles
-     * @return
-     */
-    private static float[] createNewArray(float[] oldArray, Array<Circle> wordCircles) {
-        float[] newArray = new float[wordCircles.size];
+        wCircle.x = MathUtils.random(0, TypePraxisGame.width - 228);
+        wCircle.y = MathUtils.random(600, TypePraxisGame.height - 228);
+        wCircle.radius = 100;
 
-        System.arraycopy(oldArray,0,newArray,0,oldArray.length);
-
-        for (int i = 0; i < newArray.length; i++) {
-            if (newArray[i] == 0) {
-                newArray[i] = 1f;
-            }
-        }
-        return newArray;
-    }
-
-
-    private Circle myCircleOverlapCheckMethod() {
-        Circle wordCircle = new Circle();
-        wordCircle.x = MathUtils.random(0, TypePraxisGame.width - 228);
-        wordCircle.y = MathUtils.random(600, TypePraxisGame.height - 228);
-        wordCircle.radius = 100;
-
+        int count = 0;
+        boolean isOverlaped = false;
         for (Circle circle : wordCircles) {
-            if (!wordCircle.overlaps(circle)) {
-                return wordCircle;
-            } else {
-                return myCircleOverlapCheckMethod();
+            if (wCircle.overlaps(circle)) {
+                if (!isNewCircle && count != position) {
+                    isOverlaped = true;
+                } else if(isNewCircle) {
+                    isOverlaped = true;
+                }
             }
+
+            count++;
         }
-        return wordCircle;
+        if (isOverlaped) {
+            return myCircleOverlapCheckMethod(isNewCircle, position);
+        }
+        return wCircle;
     }
 
-    private void removeWords(){
-        if (removeRandomText.size>0){
-            randomText.removeAll(removeRandomText,false);
-        }
-
-        if (removeWordCircles.size>0){
-            wordCircles.removeAll(removeWordCircles,false);
-            circleCount = wordCircles.size;
-        }
+    private void removeWords(int removePosition) {
+        myCircleOverlapCheckMethod(false, removePosition);
+        randomText.set(removePosition, randomText());
+        positions[removePosition] = 1f;
+        values[removePosition] = 1f;
     }
 
     @Override
@@ -222,6 +222,7 @@ public class GameScreen implements Screen {
         // tell the camera to update its matrices.
         camera.update();
 
+        int removePosition = -1;
         for (int j = 0; j < positions.length; j++) {
 
             positions[j] += values[j] * 0.10f * delta;
@@ -232,34 +233,33 @@ public class GameScreen implements Screen {
 
             } else if (positions[j] < 0f) {
                 positions[j] = 0f;
-                values[j] *= -1f;
+                values[j] = 0f;
                 Gdx.input.vibrate(100);
                 game.failedAttempts++;
                 //Gdx.app.log("INFO", "wordCircles size: " + wordCircles.size);
-                removeWordCircles.add(wordCircles.get(j));
-                removeRandomText.add(randomText.get(j));
+                removePosition = j;
             }
         }
 
-        if (game.failedAttempts==3) {
-            game.failedAttempts=0;
+        if (game.failedAttempts == 3) {
+            game.failedAttempts = 0;
             gameMusic.pause();
-            game.setScreen(new RetryScreen(game,this));
-          //  dispose();
+            game.setScreen(new RetryScreen(game, this));
+            //  dispose();
         }
 
-        removeWords();
+        if (removePosition != -1) {
+            removeWords(removePosition);
+        }
         // tell the SpriteBatch to render in the
         // coordinate system specified by the camera.
         game.batch.setProjectionMatrix(camera.combined);
 
-        // begin a new batch and draw the bucket and
-        // all drops
-
+        // begin a new batch and draw the circle and text
         game.stage.draw();
         game.batch.begin();
         game.scoreLabel.setText("Score: " + game.score);
-        game.failedAttemptsLabel.setText("Failed: " +  game.failedAttempts + "/"+ game.noOfAttempts);
+        game.failedAttemptsLabel.setText("Failed: " + game.failedAttempts + "/" + game.noOfAttempts);
         int i = 0;
         for (Circle circle : wordCircles) {
             String text = randomText.get(i);
@@ -267,22 +267,21 @@ public class GameScreen implements Screen {
             game.circleFont.draw(game.batch, text, circle.x + 80, circle.y + 100);
             i++;
         }
+
         game.batch.end();
 
         if ((TimeUtils.nanoTime() - lastDropTime > 2000000000) && circleCount < 2) {
-            spawnRaindrop();
+            spawnWordCircle();
         }
 
         progressTexture.bind();
-        // check if we need to create a new raindrop
+        //create progress bars
         int k = 0;
-        for (Circle circle: wordCircles) {
+        for (Circle circle : wordCircles) {
             progress(circle.x + 100, circle.y + 100, circle.radius, thickness, 1f, Color.RED, progressTexture);
             progress(circle.x + 100, circle.y + 100, circle.radius, thickness, positions[k], Color.GREEN, progressTexture);
             k++;
         }
-
-
     }
 
 
@@ -334,9 +333,7 @@ public class GameScreen implements Screen {
         texture.dispose();
         progressTexture.dispose();
         wordCircles.clear();
-        removeWordCircles.clear();
         randomText.clear();
-        removeRandomText.clear();
         renderer.dispose();
         progressTexture.dispose();
         circleCount = 0;

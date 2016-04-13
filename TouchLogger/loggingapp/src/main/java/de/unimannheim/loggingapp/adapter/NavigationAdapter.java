@@ -16,29 +16,35 @@ import de.unimannheim.loggingapp.pojo.NavigationList;
 
 /**
  * Created by suryadevara on 17-06-2015.
+ * NavigationAdapter class is used for Navigation menu for selecting different activities
  */
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.NavigationViewHolder> {
 
     private LayoutInflater inflater;
 
-    private Context context;
-
     private List<NavigationList> data = Collections.emptyList();
 
     public NavigationAdapter(Context context, List<NavigationList> data) {
         inflater = LayoutInflater.from(context);
-        this.context = context;
         this.data = data;
     }
 
+    /**
+     * selects the row and displayed using viewholder
+     * @param parent viewgroup
+     * @param viewType viewType
+     * @return viewholder
+     */
     @Override
     public NavigationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.custom_row, parent, false);
-        NavigationViewHolder navigationViewHolder = new NavigationViewHolder(view);
-        return navigationViewHolder;
+        return new NavigationViewHolder(view);
     }
 
-
+    /**
+     * returns the number of items in the menu
+     * @return data size
+     */
     @Override
     public int getItemCount() {
         return data.size();
@@ -53,6 +59,9 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Na
         holder.icon.setImageResource(current.getId());
     }
 
+    /**
+     * ViewHolder Innerclass to set the Names for each row in navigation menu
+     */
     class NavigationViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         ImageView icon;

@@ -1,5 +1,11 @@
 package de.unimannheim.loggingapp.sensors;
 
+/**
+ * Created by Saimadhav S on 06.12.2015.
+ * <p/>
+ * GyroscopeService which extends service class
+ */
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -21,9 +27,9 @@ public class LightResultReceiver extends ResultReceiver {
     }
 
     public interface Receiver {
-        public void newEvent(float x, float y, float z);
+        void newEvent(float x, float y, float z);
 
-        public void error(String error);
+        void error(String error);
     }
 
     public void setReceiver(Receiver receiver) {

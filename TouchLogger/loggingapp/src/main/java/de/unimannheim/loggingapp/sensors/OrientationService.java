@@ -101,10 +101,11 @@ public class OrientationService extends Service implements SensorEventListener {
 
 
 			SensorManager.getOrientation(Rot, orientation);
-			//Log.i("OrientationService", orientation[0]+","+orientation[1]+","+orientation[2]);
+			Log.i("OrientationService", orientation[0]+","+orientation[1]+","+orientation[2]);
 			if (mReceiver != null) {
 				Bundle result = new Bundle();
 				result.putInt(SensorResultReceiver.SENSOR_TYPE, Sensor.TYPE_ORIENTATION);
+				result.putLong(SensorResultReceiver.SENSOR_TIMESTAMP, event.timestamp);
 				result.putFloat(SensorResultReceiver.EXTRA_X, orientation[0]);
 				result.putFloat(SensorResultReceiver.EXTRA_Y, orientation[1]);
 				result.putFloat(SensorResultReceiver.EXTRA_Z, orientation[2]);

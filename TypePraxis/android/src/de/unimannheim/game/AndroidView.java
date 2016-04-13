@@ -2,6 +2,9 @@ package de.unimannheim.game;
 
 import java.util.ArrayList;
 
+import de.unimannheim.interfaces.SizeChangeListener;
+import de.unimannheim.interfaces.View;
+
 /**
  * Created by Saimadhav S on 25.03.2016.
  */

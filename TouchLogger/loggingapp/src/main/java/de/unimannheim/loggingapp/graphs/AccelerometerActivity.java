@@ -1,13 +1,9 @@
 package de.unimannheim.loggingapp.graphs;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.androidplot.Plot;
@@ -22,20 +18,17 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import de.unimannheim.loggingapp.R;
-import de.unimannheim.loggingapp.sensors.AccelerometerService;
 import de.unimannheim.loggingapp.sensors.SensorManagerActivity;
 import de.unimannheim.loggingapp.sensors.SensorResultReceiver;
-import de.unimannheim.loggingapp.utils.Constants;
 
 /**
  * Created by Saimadhav S on 20.11.2015.
+ *
  */
 public class AccelerometerActivity extends SensorManagerActivity {
 
-    private static final int HISTORY_SIZE = 30;            // number of points to plot in history
-
-    private XYPlot aprHistoryPlot = null;
-
+    // number of points to plot in history
+    private static final int HISTORY_SIZE = 30;
 
     private Redrawer redrawer;
     private SimpleXYSeries azimuthHistorySeries = null;
@@ -51,17 +44,19 @@ public class AccelerometerActivity extends SensorManagerActivity {
         setContentView(R.layout.xy_chart);
 
         Handler handler = new Handler();
-        //SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        //getting the acelerometer receiver from service
         accelerometerResultReceiver = new SensorResultReceiver(handler);
         accelerometerResultReceiver.setReceiver(new AcceleroReceiver());
 
-
+        // setting the screen in portrait mode
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
         // setup the APR History plot:
-        aprHistoryPlot = (XYPlot) findViewById(R.id.aprHistoryPlot);
+        XYPlot aprPlot = (XYPlot) findViewById(R.id.aprHistoryPlot);
 
+        // setting the 3-axis for the given plot
         azimuthHistorySeries = new SimpleXYSeries("X");
         azimuthHistorySeries.useImplicitXVals();
         pitchHistorySeries = new SimpleXYSeries("Y");
@@ -69,38 +64,41 @@ public class AccelerometerActivity extends SensorManagerActivity {
         rollHistorySeries = new SimpleXYSeries("Z");
         rollHistorySeries.useImplicitXVals();
 
-        aprHistoryPlot.setRangeBoundaries(-10, 10, BoundaryMode.AUTO);
-        aprHistoryPlot.setDomainBoundaries(0, HISTORY_SIZE, BoundaryMode.AUTO);
-        aprHistoryPlot.addSeries(azimuthHistorySeries,
+        //drawing the plot
+        aprPlot.setRangeBoundaries(-10, 10, BoundaryMode.AUTO);
+        aprPlot.setDomainBoundaries(0, HISTORY_SIZE, BoundaryMode.AUTO);
+        aprPlot.addSeries(azimuthHistorySeries,
                 new LineAndPointFormatter(
                         Color.rgb(100, 100, 200), null, null, null));
-        aprHistoryPlot.addSeries(pitchHistorySeries,
+        aprPlot.addSeries(pitchHistorySeries,
                 new LineAndPointFormatter(
                         Color.rgb(100, 200, 100), null, null, null));
-        aprHistoryPlot.addSeries(rollHistorySeries,
+        aprPlot.addSeries(rollHistorySeries,
                 new LineAndPointFormatter(
                         Color.rgb(200, 100, 100), null, null, null));
-        aprHistoryPlot.setDomainStepMode(XYStepMode.INCREMENT_BY_VAL);
-        aprHistoryPlot.setDomainStepValue(HISTORY_SIZE / 10);
-        aprHistoryPlot.setTicksPerRangeLabel(3);
-        aprHistoryPlot.setDomainLabel("Sample Index");
-        aprHistoryPlot.getDomainLabelWidget().pack();
-        aprHistoryPlot.setRangeLabel("Angle (Degs)");
-        aprHistoryPlot.getRangeLabelWidget().pack();
+        aprPlot.setDomainStepMode(XYStepMode.INCREMENT_BY_VAL);
+        aprPlot.setDomainStepValue(HISTORY_SIZE / 10);
+        aprPlot.setTicksPerRangeLabel(3);
+        aprPlot.setDomainLabel("Sample Index");
+        aprPlot.getDomainLabelWidget().pack();
+        aprPlot.setRangeLabel("Angle (Degs)");
+        aprPlot.getRangeLabelWidget().pack();
 
-        aprHistoryPlot.setRangeValueFormat(new DecimalFormat("#"));
-        aprHistoryPlot.setDomainValueFormat(new DecimalFormat("#"));
+        aprPlot.setRangeValueFormat(new DecimalFormat("#"));
+        aprPlot.setDomainValueFormat(new DecimalFormat("#"));
 
 
         redrawer = new Redrawer(
-                Arrays.asList(new Plot[]{aprHistoryPlot}),
+                Arrays.asList(new Plot[]{aprPlot}),
                 100, false);
     }
 
-
+    /**
+     * Class that gets the axis values from acccelerometer service class by using
+     * SensorResultReceiver.receiver interface
+     */
     private class AcceleroReceiver implements
             SensorResultReceiver.Receiver {
-
 
         private float x, y, z;
 
@@ -112,12 +110,11 @@ public class AccelerometerActivity extends SensorManagerActivity {
         }
 
         @Override
-        public void newEvent(int sensorType,float x, float y, float z) {
+        public void newEvent(int sensorType, long timeStamp, float x, float y, float z) {
             this.x = x;
             this.y = y;
             this.z = z;
-            Log.i("AcceReceiver", "sensorType=" + sensorType + ",x=" + x + ",y=" + y + ",z=" + z);
-
+//            Log.i("AcceReceiver", "sensorType=" + sensorType + ",x=" + x + ",y=" + y + ",z=" + z);
             sendToUI();
 
             // get rid the oldest sample in history:
@@ -138,6 +135,9 @@ public class AccelerometerActivity extends SensorManagerActivity {
 
     }
 
+    /**
+     * Sets the x,y,z axis to the UI screen which runs parallel with the graph
+     */
     private class UpdateUI implements Runnable {
 
         private String x;
@@ -148,6 +148,7 @@ public class AccelerometerActivity extends SensorManagerActivity {
         private TextView yTextView;
         private TextView zTextView;
 
+        // update the UI with new x,y,z values
         public UpdateUI(String x, String y, String z) {
             this.xTextView = (TextView) findViewById(R.id.xAxis_textView);
             this.x = x;

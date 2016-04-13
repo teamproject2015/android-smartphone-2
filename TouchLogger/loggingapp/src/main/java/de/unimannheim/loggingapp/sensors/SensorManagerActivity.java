@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,49 +16,24 @@ import java.util.Random;
 import de.unimannheim.loggingapp.BaseActivity;
 import de.unimannheim.loggingapp.R;
 import de.unimannheim.loggingapp.session.SessionManager;
+import de.unimannheim.loggingapp.touchlogger.KeyboardActivity;
 import de.unimannheim.loggingapp.utils.Constants;
+import de.unimannheim.loggingapp.utils.GenerateFeaturesFile;
 
 /**
  * Created by suryadevara on 18-06-2015.
+ * <p/>
  * Adding all the sensor data from this file
  */
 public class SensorManagerActivity extends BaseActivity {
 
     private static final String CLASS_NAME = "SensorManagerActivity";
-
-    //private final float[] deltaRotationVector = new float[4];
-    /*protected SensorManager mSensorManager;
-    protected Sensor mAccelerometer;
-    protected Sensor mTemperature;
-    protected Sensor mPressure;
-    protected Sensor mLight;
-    protected Sensor mMagneticField;
-    protected Sensor mGravity;
-    protected Sensor mGyroscope;*/
-/*
-    protected float[] accelerometerData = new float[3];
-    protected float[] gravityData = new float[3];
-    protected float[] magnitudeData = new float[3];
-    protected float[] gyroscopeData = new float[3];
-    protected float[] orientationData = new float[3];*/
-
+    static Random rnd = new Random();
     protected float lux;
     protected float hPa;
-
     protected StringBuffer logValues = new StringBuffer();
     protected String generatedKey;
-
     protected String data;
-    static Random rnd = new Random();
-    private char[] randomKeys;
-    private int charCount;
-
-    /*protected ArrayList<SensorData> accelerometerData = new ArrayList<>();
-    protected ArrayList<SensorData> gravityData = new ArrayList<>();
-    protected ArrayList<SensorData> magnitudeData = new ArrayList<>();
-    protected ArrayList<SensorData> gyroscopeData = new ArrayList<>();
-    protected ArrayList<SensorData> orientationData = new ArrayList<>();*/
-
     protected SensorResultReceiver accelerometerResultReceiver;
     protected SensorResultReceiver orientationResultReceiver;
     protected SensorResultReceiver gyroscopeResultReceiver;
@@ -67,21 +41,38 @@ public class SensorManagerActivity extends BaseActivity {
     protected PressureResultReceiver pressureResultReceiver;
     protected LightResultReceiver lightResultReceiver;
     protected SensorResultReceiver magnitudeResultReceiver;
-
+    protected SensorResultReceiver rotationVectorResultReceiver;
     protected String pressedKey;
-    //long downTime, upTime;
     protected float coordinateX, coordinateY;
+    private char[] randomKeys;
+    private int charCount;
 
+    protected String csvFileName;
 
+    /**
+     * Implementing Fisher–Yates shuffle
+     */
+    private static char[] shuffleArray(char[] ar) {
+        for (int i = ar.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            char a = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
+        }
+        return ar;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        startServices();
-        registerSensors();
         pressedKey = "";
+
+        //registering the sensors
+        registerSensors();
+
+        //Starting the services by using startservice method
+        startServices();
     }
 
     public void startServices() {
@@ -90,12 +81,6 @@ public class SensorManagerActivity extends BaseActivity {
         Intent accIntent = new Intent(this, AccelerometerService.class);
         accIntent.putExtra(Constants.EXTRA_RECEIVER, accelerometerResultReceiver);
         startService(accIntent);
-
-
-        // start orientation service
-        /*Intent orientationIntent = new Intent(this, OrientationService.class);
-        orientationIntent.putExtra(Constants.EXTRA_RECEIVER, orientationResultReceiver);
-        startService(orientationIntent);*/
 
         // start gyroscope service
         Intent gyroscopeIntent = new Intent(this, GyroscopeService.class);
@@ -107,24 +92,30 @@ public class SensorManagerActivity extends BaseActivity {
         gravityIntent.putExtra(Constants.EXTRA_RECEIVER, gravityResultReceiver);
         startService(gravityIntent);
 
-
         // start pressure service
         Intent pressureIntent = new Intent(this, PressureService.class);
         pressureIntent.putExtra(Constants.EXTRA_RECEIVER, pressureResultReceiver);
         startService(pressureIntent);
-
 
         // start light service
         Intent lightIntent = new Intent(this, LightService.class);
         lightIntent.putExtra(Constants.EXTRA_RECEIVER, lightResultReceiver);
         startService(lightIntent);
 
-
-        // start light service
+        // start Magnitude service
         Intent magnitudeIntent = new Intent(this, MagnitudeService.class);
         magnitudeIntent.putExtra(Constants.EXTRA_RECEIVER, magnitudeResultReceiver);
         startService(magnitudeIntent);
 
+        // start Rotation Vector service
+        Intent rotationVectorIntent = new Intent(this, RotationVectorService.class);
+        rotationVectorIntent.putExtra(Constants.EXTRA_RECEIVER, rotationVectorResultReceiver);
+        startService(rotationVectorIntent);
+
+        // start orientation service
+        /*Intent orientationIntent = new Intent(this, OrientationService.class);
+        orientationIntent.putExtra(Constants.EXTRA_RECEIVER, orientationResultReceiver);
+        startService(orientationIntent);*/
     }
 
     /**
@@ -142,29 +133,36 @@ public class SensorManagerActivity extends BaseActivity {
                 accelerometerResultReceiver = new SensorResultReceiver(handler);
                 accelerometerResultReceiver.setReceiver(new SensorDataReceiver());
 
-            } else if (type == Sensor.TYPE_GRAVITY) {
-                gravityResultReceiver = new SensorResultReceiver(handler);
-                gravityResultReceiver.setReceiver(new SensorDataReceiver());
-
             } else if (type == Sensor.TYPE_GYROSCOPE) {
                 gyroscopeResultReceiver = new SensorResultReceiver(handler);
                 gyroscopeResultReceiver.setReceiver(new SensorDataReceiver());
 
-            } else if (type == Sensor.TYPE_PRESSURE) {
-                pressureResultReceiver = new PressureResultReceiver(handler);
-                pressureResultReceiver.setReceiver(new PressureReceiver());
+            } else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
+                magnitudeResultReceiver = new SensorResultReceiver(handler);
+                magnitudeResultReceiver.setReceiver(new SensorDataReceiver());
+
+            } else if (type == Sensor.TYPE_ROTATION_VECTOR) {
+                rotationVectorResultReceiver = new SensorResultReceiver(handler);
+                rotationVectorResultReceiver.setReceiver(new SensorDataReceiver());
 
             } else if (type == Sensor.TYPE_LIGHT) {
                 lightResultReceiver = new LightResultReceiver(handler);
                 lightResultReceiver.setReceiver(new LightReceiver());
 
-            } else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
-                magnitudeResultReceiver = new SensorResultReceiver(handler);
-                magnitudeResultReceiver.setReceiver(new SensorDataReceiver());
+            } else if (type == Sensor.TYPE_GRAVITY) {
+                gravityResultReceiver = new SensorResultReceiver(handler);
+                gravityResultReceiver.setReceiver(new SensorDataReceiver());
+
+            } else if (type == Sensor.TYPE_PRESSURE) {
+                pressureResultReceiver = new PressureResultReceiver(handler);
+                pressureResultReceiver.setReceiver(new PressureReceiver());
+
             }
         }
-        /*orientationResultReceiver = new SensorResultReceiver(handler);
-        orientationResultReceiver.setReceiver(new SensorDataReceiver());*/
+        /*if(magnitudeResultReceiver!= null && gyroscopeResultReceiver!=null) {
+            orientationResultReceiver = new SensorResultReceiver(handler);
+            orientationResultReceiver.setReceiver(new SensorDataReceiver());
+        }*/
     }
 
     /**
@@ -175,168 +173,86 @@ public class SensorManagerActivity extends BaseActivity {
 
         if (randomKeys == null || randomKeys.length == 0) {
             randomLetters = new String(new char[40]).replace("\0", randomLetters);
-            //String value = String.valueOf(randomLetters.charAt(rnd.nextInt(randomLetters.length())));
             randomKeys = shuffleArray(randomLetters.toCharArray());
-            //randomKeys = rnd.nextInt(26) + (byte)'a';
-            //randomKeys = rnd.nextInt(10);
             charCount = 0;
+            //Log.d(CLASS_NAME, "Random key generated"+ new String(randomKeys));
         }
-        //Log.i(CLASS_NAME, "Random key generated"+ new String(randomKeys));
 
         generatedKey = String.valueOf(randomKeys[charCount++]);
         if (randomKeys.length - 1 == charCount) {
             generatedKey = "All keys are finished";
         }
-
-
-        /*if(keyCount==39 || keyCount==0) {
-
-
-        }
-        if(keyCount==39) {
-            keyCount = 0;
-        }
-        keyCount++; */
+        //setting the generatedkey to textview
         TextView generateKeyForTextView = (TextView) findViewById(R.id.textView_key);
         generateKeyForTextView.setText(generatedKey);
     }
 
-    /*
-     * Implementing Fisher–Yates shuffle
-     */
-    static char[] shuffleArray(char[] ar) {
-        for (int i = ar.length - 1; i > 0; i--) {
-            int index = rnd.nextInt(i + 1);
-            // Simple swap
-            char a = ar[index];
-            ar[index] = ar[i];
-            ar[i] = a;
-        }
-        return ar;
-    }
-
     /**
-     * recursiveRandomStr method will remove the repeated characters
-     * which are produced in Random character generation
+     * get the touch events from the other event and set the values to sensormanageractivity
+     *
+     * @param x        x Coordinate
+     * @param y        y Coordinate
+     * @param key      pressed key value
+     * @param downTime downtime of key press
+     * @param upTime   uptime of key press
      */
-     /* private String recursiveRandomStr(String randomLetter) {
-
-        if(!randomKeys.contains(randomLetter)) {
-            randomKeys.add(randomLetter);
-        } else {
-            recursiveRandomStr(randomLetter);
-        }
-        return randomLetter;
-    } */
     protected void recordTouchEvent(float x, float y, String key,
                                     long downTime, long upTime) {
 
         this.pressedKey = key;
         this.coordinateX = x;
         this.coordinateY = y;
-       // Log.i("Record", "Key=" + this.pressedKey + ",coordinateX=" + this.coordinateX +",coordinateY=" + this.coordinateY);
+        // Log.d("Record", "Key=" + this.pressedKey + ",coordinateX=" + this.coordinateX +",coordinateY=" + this.coordinateY);
     }
 
+
     /**
-     * When the User press/ touch the screen the event from OnTouchevent will be
-     * triggering the onTouch method, the method will save the x,y coordinates
-     * and accelerometer and orientation coordinates
+     * Populate the sensor data to stringbuffer to save to csv file
+     *
+     * @param name      name of the sensor
+     * @param timeStamp timestamp when the sensor got the value
+     * @param x         x axis of sensor
+     * @param y         y axis of sensor
+     * @param z         z axis of sensor
      */
-   /* protected boolean setBuffer() {
+    private void populateSensorData(String name, long timeStamp, float x, float y, float z) {
+        //Log.d(CLASS_NAME,sensorData.toString());
 
-        StringBuilder keyStroke = new StringBuilder();
-
-        //Appending the key
-        keyStroke.append(key).append(";");
-
-        //Keystroke for Co-ordinates
-        keyStroke.append(coordinateX).append(";").append(coordinateY).append(";");
-        //Testing the Value of pointers by Log
-        //Log.d(CLASS_NAME; "X:" + event.getX(pointerIndex) + "Y:" + event.getY(pointerIndex));
-
-
-        //Keystroke for taken Time/ms
-        //long downTime = event.getDownTime();
-        //Log.d(CLASS_NAME, "downTime-->" + downTime + " upTime-->" + upTime);
-        //keyStroke.append(System.nanoTime()).append(";");
-        //keyStroke.append(upTime).append(";");
-        *//*StringBuilder tempBuffer = new StringBuilder();
-        tempBuffer.append(keyStroke);*//*
-        //keyStroke.append(sensorValues).append("\r\n");
-        //sensorValues.setLength(0);
-
-        //Only the first sensor value needs to be collected; so commented the below Code
-        //Keystroke for gravity
-        keyStroke.append(System.nanoTime()).append(";").append("Gravity").append(";").append(gravityData[0]).append(";")
-                .append(gravityData[1]).append(";").append(gravityData[2]).append("\r\n");
-        //populateSensorData("Gravity", gravityData, keyStroke, new StringBuilder(), downTime, upTime);
-        //Keystroke for magnitude
-        keyStroke.append(tempBuffer).append(System.nanoTime()).append(";").append("Magnitude").append(";").append(magnitudeData[0]).append(";")
-                .append(magnitudeData[1]).append(";").append(magnitudeData[2]).append("\r\n");
-        //populateSensorData("Magnitude", magnitudeData, keyStroke, tempBuffer, downTime, upTime);
-
-        //Keystroke for Accelerometer
-        //Log.i(CLASS_NAME, "accelerometerData-->" + accelerometerData.toString());
-        keyStroke.append(tempBuffer).append(System.nanoTime()).append(";").append("Acceleration").append(";").append(accelerometerData[0]).append(";")
-                .append(accelerometerData[1]).append(";").append(accelerometerData[2]).append("\r\n");
-        //populateSensorData("Acceleration", accelerometerData, keyStroke, tempBuffer, downTime, upTime);
-
-        //Keystroke for orientation
-        *//*keyStroke.append("Orientation").append(";").append(orientationData[0]).append(";")
-                .append(orientationData[1]).append(";").append(orientationData[2]).append("\r\n");*//*
-        //populateSensorData("Orientation", orientationData, keyStroke, tempBuffer, downTime, upTime);
-
-        keyStroke.append(tempBuffer).append(System.nanoTime()).append(";").append("GyroScope").append(";").append(gyroscopeData[0]).append(";")
-                .append(gyroscopeData[1]).append(";").append(gyroscopeData[2]).append("\r\n");
-        //populateSensorData("GyroScope", gyroscopeData, keyStroke, tempBuffer, downTime, upTime);
-
-
-      *//*  keyStroke.append(tempBuffer).append("RotationVector").append(",").append(rotationVector[0]).append(",")
-                .append(rotationVector[1]).append(";").append(rotationVector[2]).append("\r\n");*//*
-
-        //Keystroke for Temperature
-        //keyStroke.append(celsius).append(";");
-
-        //Keystroke for Light
-        keyStroke.append(tempBuffer).append(System.nanoTime()).append(";").append("Light").append(";").append(lux).append(";").append(0).append(";").append(0).append("\r\n");
-        //Keystroke for pressure
-        keyStroke.append(tempBuffer).append(System.nanoTime()).append(";").append("Pressure").append(";").append(hPa).append(";").append(0).append(";").append(0).append("\r\n");
-        Log.i("keyStroke", keyStroke.toString());
-        logValues.append(keyStroke);
-        //Log.i(CLASS_NAME, "logValues------------->" + logValues);
-        return true;
-    }*/
-
-    private void populateSensorData(String name, float x, float y,float z) {
-        //Log.i(CLASS_NAME,sensorData.toString());
         //Appending the key and Co-ordinates
-        logValues.append(name).append(";").append(System.nanoTime()).append(";").append(pressedKey).append(";")
+        logValues.append(name).append(";").append(timeStamp).append(";").append(pressedKey).append(";")
                 .append(coordinateX).append(";").append(coordinateY).append(";").append(x).append(";")
                 .append(y).append(";").append(z).append("\r\n");
 
     }
 
+
+    // Inflate the menu; this adds items to the action bar if it is present.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
 
+    /**
+     * onResume the services are again activated
+     */
     protected void onResume() {
         super.onResume();
         startServices();
     }
 
+    /**
+     * all the sensors are unregistered in onPause method.
+     */
     protected void onPause() {
         super.onPause();
-        /*accelerometerData.clear();
-        gravityData.clear();
-        magnitudeData.clear();
-        gyroscopeData.clear();
-        orientationData.clear();*/
-        /*mSensorManager.unregisterListener(this);*/
+
+        //calling the async method
+        SaveFeaturesFile saveFeaturesFile = new SaveFeaturesFile();
+        saveFeaturesFile.execute(csvFileName);
+
+        //disabling all the sensor services
         if (accelerometerResultReceiver != null)
             stopService(new Intent(this, AccelerometerService.class));
         if (orientationResultReceiver != null)
@@ -351,8 +267,29 @@ public class SensorManagerActivity extends BaseActivity {
             stopService(new Intent(this, LightService.class));
         if (magnitudeResultReceiver != null)
             stopService(new Intent(this, MagnitudeService.class));
+        if (rotationVectorResultReceiver != null)
+            stopService(new Intent(this, RotationVectorService.class));
     }
 
+    /**
+     * SaveFeaturesFile class runs in the background for saving the Features file
+     */
+    private class SaveFeaturesFile extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            GenerateFeaturesFile generate = new GenerateFeaturesFile();
+            generate.writeCSVFeaturesFile(csvFileName);
+            return null;
+        }
+    }
+
+
+    /**
+     * gets the user related information such as username, layout, orientation, variation and so on
+     *
+     * @return string value
+     */
     protected String getBundleData() {
         Bundle bundle = getIntent().getExtras();
         StringBuilder temp = new StringBuilder();
@@ -370,65 +307,41 @@ public class SensorManagerActivity extends BaseActivity {
         return temp.toString();
     }
 
-    private class SaveToBuffer extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            //populateSensorData();
-            return null;
-        }
-    }
-
+    /**
+     * SensorDataReceiver gets the data from service class to current class
+     */
     protected class SensorDataReceiver implements
             SensorResultReceiver.Receiver {
 
-        //private float x, y, z;
-        /*SensorData data = null;
-        long timestamp = 0;
-*/
         public SensorDataReceiver() {
         }
 
         @Override
-        public void newEvent(int sensorType, float x, float y, float z) {
-            //Log.i(CLASS_NAME,"x="+x+",y="+y+",z="+z);
-            //Log.i("AcceReceiver", "sensorType=" + sensorType + ",x=" + x + ",y=" + y + ",z=" + z);
+        public void newEvent(int sensorType, long timeStamp, float x, float y, float z) {
 
             if (sensorType == Sensor.TYPE_ACCELEROMETER) {
                /* accelerometerData[0] = x;
                 accelerometerData[1] = y;
                 accelerometerData[2] = z;*/
-                populateSensorData("Acceleration", x,y,z);
+                populateSensorData("Acceleration", timeStamp, x, y, z);
             } else if (sensorType == Sensor.TYPE_GYROSCOPE) {
-                /*gyroscopeData[0] = x;
+              /*gyroscopeData[0] = x;
                 gyroscopeData[1] = y;
                 gyroscopeData[2] = z;*/
-                populateSensorData("Gyroscope", x,y,z);
+                populateSensorData("Gyroscope", timeStamp, x, y, z);
             } else if (sensorType == Sensor.TYPE_GRAVITY) {
-               /* gravityData[0] = x;
+              /*gravityData[0] = x;
                 gravityData[1] = y;
                 gravityData[2] = z;*/
-                populateSensorData("Gravity", x,y,z);
+                populateSensorData("Gravity", timeStamp, x, y, z);
             } else if (sensorType == Sensor.TYPE_MAGNETIC_FIELD) {
-                /*magnitudeData[0] = x;
+              /*magnitudeData[0] = x;
                 magnitudeData[1] = y;
                 magnitudeData[2] = z;*/
-                populateSensorData("Magnitude", x,y,z);
-            } /*else if (sensorType == Sensor.TYPE_ORIENTATION) {
-                orientationData[0] = x;
-                orientationData[1] = y;
-                orientationData[2] = z;
-            }*/
-            //setBuffer();
-            //new SaveToBuffer().execute();
-           /* timestamp = System.currentTimeMillis();
-            System.nanoTime();
-            data = new SensorData(timestamp, x, y, z);
-            accelerometerData.add(data);*/
-            /*acceleration[0] = x;
-            acceleration[1] = y;
-            acceleration[2] = z;*/
-            // writeToFile(x+","+y+","+z+"\r\n","Accelerometer.csv");
+                populateSensorData("Magnitude", timeStamp, x, y, z);
+            } else if (sensorType == Sensor.TYPE_ROTATION_VECTOR) {
+                populateSensorData("RotationVector", timeStamp, x, y, z);
+            }
         }
 
         @Override
@@ -437,7 +350,9 @@ public class SensorManagerActivity extends BaseActivity {
     }
 
 
-
+    /**
+     * PressureReceiver gets the data from Pressure service class to current class
+     */
     private class PressureReceiver implements PressureResultReceiver.Receiver {
 
         public PressureReceiver() {
@@ -453,6 +368,9 @@ public class SensorManagerActivity extends BaseActivity {
         }
     }
 
+    /**
+     * LightReceiver gets the data from Light service class to current class
+     */
     private class LightReceiver implements LightResultReceiver.Receiver {
         public LightReceiver() {
         }
@@ -466,7 +384,4 @@ public class SensorManagerActivity extends BaseActivity {
         public void error(String error) {
         }
     }
-
-
-
 }

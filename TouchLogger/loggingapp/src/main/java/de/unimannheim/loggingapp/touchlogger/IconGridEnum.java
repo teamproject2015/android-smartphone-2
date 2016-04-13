@@ -2,6 +2,8 @@ package de.unimannheim.loggingapp.touchlogger;
 
 /**
  * Created by suryadevara on 29-06-2015.
+ * <p/>
+ * Enumeration class for IconGrid
  */
 public enum IconGridEnum {
 
@@ -22,12 +24,14 @@ public enum IconGridEnum {
     GRID_42(999);
 
     public int gridValue;
-    public int getValue() {
-        return gridValue;
+
+    //Enum constructor
+    IconGridEnum(int s) {
+        gridValue = s;
     }
 
-    private IconGridEnum(int s) {
-        gridValue = s;
+    public int getValue() {
+        return gridValue;
     }
 
 }

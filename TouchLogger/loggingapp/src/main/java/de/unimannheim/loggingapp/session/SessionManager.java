@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
- * Created by suryadevara on 13-06-2015.
+ * Created by Saimadhav S on 13-06-2015.
  * SessionManager is used to handle the session of Application
  */
 public class SessionManager {

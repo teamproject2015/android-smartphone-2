@@ -17,7 +17,7 @@ import de.unimannheim.loggingapp.NavigationDrawerFragment;
 import de.unimannheim.loggingapp.R;
 
 /**
- * @author suryadevara
+ * @author Saimadhav S
  *         Created on 15.06.2015
  *         <p/>
  *         TouchloggerActivity Class is used to record the Logger activities to train
@@ -55,7 +55,6 @@ public class TouchloggerActivity extends BaseActivity {
         final Spinner input = (Spinner) findViewById(R.id.spinner_input);
         final Spinner posture = (Spinner) findViewById(R.id.spinner_posture);
         final Spinner externalFactors = (Spinner) findViewById(R.id.spinner_externalFactors);
-
 
 
         final TextView textViewLayout = (TextView) findViewById(R.id.textView_orientation);
@@ -112,7 +111,7 @@ public class TouchloggerActivity extends BaseActivity {
                      */
                     int orientationPosition = orientation.getSelectedItemPosition();
                     Log.d(CLASS_NAME, layoutPosition + " and " + orientationPosition + " is selected");
-                    int position = 0 ;
+                    int position = 0;
                     if (orientationPosition == 0) {
                         position = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
                     } else if (orientationPosition == 1) {
